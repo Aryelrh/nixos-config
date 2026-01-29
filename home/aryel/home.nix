@@ -1,5 +1,9 @@
 { pkgs, ... }:
 
+let
+  #Root absolute route from flake
+  flakeRoot = builtins.path { path = ../.; name = "nixos-config"; };
+in
 {
   #General config
   home.stateVersion = "26.05";
@@ -20,7 +24,7 @@
     pkgs.swww
     pkgs.bottom
 
-    #Neovim setup
+    #Neovim setup (LSP, search, etc...)
     pkgs.neovim
     pkgs.ripgrep
     pkgs.fd
@@ -45,10 +49,7 @@
   };
   
   #Declarative symlinks for Lua config
-  xdg.configFile."nvim".source = ../../modules/home/nvim;
-
-  #Ensure that Neovim data directory existe (for lazy-lock.json)
-  home.file.".local/share/nvim".recursive = true;
+  xdg.configFile."nvim".source = "${flakeRoot}/modules/home/nvim";
 
   #Alias
   programs.bash = {
@@ -56,7 +57,7 @@
   
     shellAliases = {
       hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
-      rebuild = "sudo nixos-rebuild switch";
+      gc = "cd ~/nixos-config && sudo nix-collect-garbage -d && home-manager gc && echo 'GC done'";     
     };
   };
 }
