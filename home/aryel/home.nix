@@ -21,6 +21,7 @@
     pkgs.bottom
 
     #Neovim setup
+    pkgs.neovim
     pkgs.ripgrep
     pkgs.fd
     pkgs.nodejs
@@ -28,11 +29,6 @@
     pkgs.pyright
     pkgs.clang-tools
     pkgs.rust-analyzer
-  ];
-
-  #Modules imports
-  imports = [
-    ../../modules/home/neovim
   ];
   
   #Cursor
@@ -47,13 +43,19 @@
     JAVA_HOME = "${pkgs.openjdk21}";
     MAVEN_HOME = "${pkgs.maven}";
   };
+  
+  #Declarative symlinks for Lua config
+  xdg.configFile."nvim".source = ../../modules/home/nvim;
+
+  #Ensure that Neovim data directory existe (for lazy-lock.json)
+  home.file.".local/share/nvim".recursive = true;
 
   #Alias
   programs.bash = {
     enable = true;
   
     shellAliases = {
-      hm = "nix run ~/nix#home-manager -- switch --flake ~/nix#aryel";
+      hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
       rebuild = "sudo nixos-rebuild switch";
     };
   };

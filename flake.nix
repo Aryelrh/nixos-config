@@ -21,7 +21,11 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.aryel = import ./home/aryel/home.nix;
+          home-manager.users.aryel = {
+            imports = [
+              ./home/aryel/home.nix
+            ];
+          };
         }
       ];
     };
