@@ -1,8 +1,11 @@
 { pkgs, ... }:
 
 let
-  #Root absolute route from flake
-  flakeRoot = builtins.path { path = ../.; name = "nixos-config"; };
+  #Relative path to absolute path
+  nvimConfigPath = builtins.path {
+    path = ../../modules/home/nvim;
+    name = "nvim-config";
+  };
 in
 {
   #General config
@@ -11,6 +14,13 @@ in
   home.username = "aryel";
   home.homeDirectory = "/home/aryel";
   
+  #Enable Neovim complete module (to avoid errors)
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  };
+
   #Install packages
   home.packages = [
     pkgs.vscode
@@ -25,7 +35,6 @@ in
     pkgs.bottom
 
     #Neovim setup (LSP, search, etc...)
-    pkgs.neovim
     pkgs.ripgrep
     pkgs.fd
     pkgs.nodejs
@@ -34,7 +43,7 @@ in
     pkgs.clang-tools
     pkgs.rust-analyzer
   ];
-  
+
   #Cursor
   home.pointerCursor = {
     name = "Adwaita";
@@ -49,7 +58,7 @@ in
   };
   
   #Declarative symlinks for Lua config
-  xdg.configFile."nvim".source = "${flakeRoot}/modules/home/nvim";
+  home.file.".config/nvim".source = nvimConfigPath;
 
   #Alias
   programs.bash = {
@@ -57,7 +66,7 @@ in
   
     shellAliases = {
       hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
-      gc = "cd ~/nixos-config && sudo nix-collect-garbage -d && home-manager gc && echo 'GC done'";     
+      gc = "sudo nix-collect-garbage -d";
     };
   };
 }

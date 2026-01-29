@@ -1,4 +1,11 @@
--- Bootstrap Lazy if not installed
+-- modules/home/nvim/init.lua
+vim.g.mapleader = " "
+vim.opt.termguicolors = true
+
+-- Forces lockfile to a mutable directory before bootstrap
+vim.g.lazy_lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json"
+
+-- Bootstrap Lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -10,7 +17,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Config base
-vim.opt.termguicolors = true
 require("config.options")
 require("config.keymaps")
 
