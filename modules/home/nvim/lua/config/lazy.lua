@@ -1,24 +1,19 @@
--- modules/home/nvim/lua/config/lazy.lua
+-- lua/config/lazy.lua
 return require("lazy").setup({
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd("colorscheme tokyonight")
-    end,
+  spec = {
+    { import = "plugins" },
   },
-  { "nvim-lua/plenary.nvim", lazy = true },
-}, {
-  -- Forces to use a mutable path to generate /lazy-lock.json
-  lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
   defaults = { lazy = true },
-  install = { colorscheme = { "tokyonight" } },
+  -- Forces lockfile to mutable path (requirement for NixOS)
+  lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+  install = { colorscheme = { "rose-pine" } },
   checker = { enabled = true, notify = false },
   performance = {
     rtp = {
       disabled_plugins = {
         "gzip", "zipPlugin", "netrwPlugin", "tarPlugin",
+        "matchit", "matchparen", "tarPlugin", "tohtml",
+        "tutor", "zipPlugin",
       },
     },
   },
