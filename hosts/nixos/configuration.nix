@@ -187,7 +187,6 @@
     waybar
     wofi
     dunst
-    hyprpaper
     
     #Useful
     fuzzel
