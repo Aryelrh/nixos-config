@@ -3,20 +3,24 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    lazy = true,
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      require("nvim-treesitter.configs").setup({
-        -- Auto language install
+      local ok, configs = pcall(require, "nvim-treesitter.configs")
+      if not ok then
+        vim.notify("nvim-treesitter.configs not available yet", vim.log.levels.DEBUG)
+        return
+      end
+      configs.setup({
         ensure_installed = {
           "lua", "vim", "vimdoc", "query",
           "python", "javascript", "typescript", "tsx", "css", "html",
-          "rust", "cpp", "java", "json", "yaml", "markdown", "markdown_inline",
+          "rust", "cpp", "java", "json", "yaml", "markdown", "markdown_inline", "xml",
         },
 
-        -- Auto Highlighting
         highlight = {
           enable = true,
           disable = function(lang, buf)
-            -- Desable in large buffers (>100k lines)
             local max_filesize = 100 * 1024 -- 100KB
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
             if ok and stats and stats.size > max_filesize then
@@ -25,24 +29,20 @@ return {
           end,
         },
 
-        -- Indentation
         indent = { enable = true },
 
-        -- Inteligent autopairs (ej: () {} [])
         autopairs = { enable = true },
 
-        -- Incremental selection (visual scopes with =)
         incremental_selection = {
           enable = true,
           keymaps = {
-            init_selection = "<CR>",      
-            node_incremental = "<CR>",   
-            scope_incremental = "<TAB>",  
+            init_selection = "<CR>",
+            node_incremental = "<CR>",
+            scope_incremental = "<TAB>",
             node_decremental = "<S-TAB>",
           },
         },
 
-        -- Textobjects to move through the code (ej: "inner function")
         textobjects = {
           select = {
             enable = true,
@@ -76,16 +76,17 @@ return {
           },
         },
       })
-
-      -- Util commands
-      vim.api.nvim_create_user_command("TSInstallAll", function()
-        require("nvim-treesitter.install").update({ with_sync = true })
-      end, {})
     end,
   },
 
   {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
+
+  {
     "windwp/nvim-ts-autotag",
+    event = { "BufReadPre", "BufNewFile" },
     ft = { "html", "xml", "tsx", "jsx" },
     config = true,
   },

@@ -1,8 +1,8 @@
 -- lua/plugins/git.lua
 return {
-  -- Signs in gutter for Git changes
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("gitsigns").setup({
         signs = {
@@ -14,7 +14,6 @@ return {
         },
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
-
           local function map(mode, l, r, opts)
             opts = opts or {}
             opts.buffer = bufnr
@@ -27,7 +26,6 @@ return {
             vim.schedule(function() gs.next_hunk() end)
             return "<Ignore>"
           end, { expr = true })
-
           map("n", "[c", function()
             if vim.wo.diff then return "[c" end
             vim.schedule(function() gs.prev_hunk() end)
@@ -52,7 +50,4 @@ return {
       })
     end,
   },
-
-  -- ✅ UI para Git (recomendado: lazygit en terminal)
-  -- Instálalo via Nix: pkgs.lazygit en home.packages
 }

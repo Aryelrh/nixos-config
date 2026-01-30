@@ -8,11 +8,12 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls", "pyright", "rust_analyzer",
-          "clangd", "tsserver", "eslint",
+          "ts_ls", "eslint",
         },
       })
     end,
@@ -21,10 +22,9 @@ return {
   -- LSP Config (core)
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local lspconfig = require("lspconfig")
-
-      -- Keymaps comunes para LSP
+      -- Common keymaps for LSP
       local keymap = vim.keymap.set
       local opts = { noremap = true, silent = true }
 
@@ -34,10 +34,9 @@ return {
       keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
       keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
-      -- LSP keymaps
+      -- LSP keymaps for on_attach
       local on_attach = function(client, bufnr)
         opts.buffer = bufnr
-
         keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
         keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
         keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
@@ -53,41 +52,54 @@ return {
         keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
       end
 
-      -- LSP servers setup
-      local servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              runtime = { version = "LuaJIT" },
-              diagnostics = { globals = { "vim" } },
-              workspace = {
-                library = {
-                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                  [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-                },
+      -- LSP servers setup using vim.lsp.config (new API for 0.11+)
+      vim.lsp.config("lua_ls", {
+        on_attach = on_attach,
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+              library = {
+                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
               },
             },
           },
         },
-        pyright = {},
-        rust_analyzer = {},
-        clangd = {},
-        tsserver = {},
-        eslint = {
-          settings = {
-            -- eslint.format.enable = true,
-          },
-        },
-      }
+      })
 
-      for name, config in pairs(servers) do
-        lspconfig[name].setup({
-          on_attach = on_attach,
-          settings = config.settings,
-        })
-      end
+      vim.lsp.config("pyright", { on_attach = on_attach })
+      vim.lsp.config("rust_analyzer", { on_attach = on_attach })
+      vim.lsp.config("ts_ls", { on_attach = on_attach })
+      vim.lsp.config("eslint", { on_attach = on_attach })
 
-      -- Diagnostic symbols en signcolumn
+      -- Enable all configured servers
+      vim.lsp.enable({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "eslint" })
+
+      -- Setup jdtls with autocmd (special handling for Java)
+      local jdtls_group = vim.api.nvim_create_augroup("jdtls_setup", { clear = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = jdtls_group,
+        pattern = "java",
+        callback = function(args)
+          local jdtls_cmd = "/etc/profiles/per-user/aryel/bin/jdtls"
+          
+          if vim.fn.executable(jdtls_cmd) == 1 then
+            vim.lsp.config("jdtls", {
+              cmd = { jdtls_cmd },
+              root_dir = vim.fs.find({ "pom.xml", "build.gradle", ".git" }, { upward = true })[1] or vim.fn.getcwd(),
+              on_attach = on_attach,
+              single_file_support = true,
+            })
+            vim.lsp.enable({ "jdtls" })
+          else
+            vim.notify("jdtls not found at: " .. jdtls_cmd, vim.log.levels.WARN)
+          end
+        end,
+      })
+
+      -- Diagnostic symbols in signcolumn
       for name, icon in pairs({
         Error = " ",
         Warn = " ",
@@ -102,13 +114,14 @@ return {
   -- Autocompletado (nvim-cmp)
   {
     "hrsh7th/nvim-cmp",
+    event = { "BufReadPre", "BufNewFile", "InsertEnter" },
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
       "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets", -- Snippets útiles
+      "rafamadriz/friendly-snippets",
     },
     config = function()
       local cmp = require("cmp")
@@ -188,6 +201,7 @@ return {
   -- Auto formatting with conform.nvim
   {
     "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("conform").setup({
         formatters_by_ft = {

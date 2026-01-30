@@ -34,6 +34,12 @@ in
     pkgs.swww
     pkgs.bottom
 
+    #Rust
+    pkgs.rustc
+    pkgs.cargo
+    pkgs.rustfmt
+    pkgs.clippy
+
     #Neovim setup (LSP, search, etc...)
     pkgs.ripgrep
     pkgs.fd
@@ -42,6 +48,7 @@ in
     pkgs.pyright
     pkgs.clang-tools
     pkgs.rust-analyzer
+    pkgs.jdt-language-server
   ];
 
   #Cursor
