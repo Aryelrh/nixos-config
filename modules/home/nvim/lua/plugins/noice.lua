@@ -24,19 +24,8 @@ return {
           lsp_doc_border = false,
         },
         cmdline = {
-          view = "cmdline_popup",
-          format = {
-            cmdline = { icon = " ", lang = "vim" },
-            search_down = { icon = " 🔍 ", lang = "regex" },
-            search_up = { icon = " 🔍 ", lang = "regex" },
-            filter = { icon = " ", lang = "vim" },
-            lua = { icon = " ", lang = "lua" },
-            help = { icon = " ", lang = "vim" },
-          },
-        },
-        popupmenu = {
           enabled = true,
-          backend = "nui",
+          view = "cmdline_popup",
         },
         routes = {
           {
@@ -46,55 +35,77 @@ return {
                 { find = "%d+L, %d+B" },
                 { find = "; after #%d+" },
                 { find = "; before #%d+" },
+                { find = "E37" },
               },
             },
             view = "mini",
           },
+          {
+            filter = {
+              event = "notify",
+              find = "No information available",
+            },
+            opts = { skip = true },
+          },
+        },
+        commands = {
+          history = {
+            view = "split",
+            opts = { enter = true, format = "details" },
+            filter = {
+              any = {
+                { event = "notify" },
+                { error = true },
+                { warning = true },
+              },
+            },
+          },
+          last = {
+            view = "popup",
+            opts = { enter = true, format = "details" },
+          },
+          errors = {
+            view = "popup",
+            opts = { enter = true, format = "details" },
+            filter = { error = true },
+          },
         },
         views = {
-          cmdline_popup = {
+          notify = {
+            replace = true,
+            merge = true,
+          },
+          hover = {
+            view = "popup",
+          },
+          split = {
+            view = "split",
+            enter = true,
+          },
+          popup = {
             backend = "popup",
             relative = "editor",
             align = "center",
             border = {
               style = "rounded",
-              highlight = "NormalFloat",
-              text = {
-                top = " Command ",
-              },
+              padding = { 0, 1 },
             },
             size = {
-              width = 60,
+              width = "60%",
               height = "auto",
             },
             win_options = {
               winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-            },
-            enter = true,
-            zindex = 200,
-          },
-          popupmenu = {
-            backend = "nui",
-            relative = "editor",
-            align = "center",
-            size = {
-              width = 60,
-              height = 10,
-            },
-            border = {
-              style = "rounded",
-              padding = { 0, 1 },
-            },
-            win_options = {
-              winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+              wrap = true,
             },
           },
         },
       })
 
-      -- Optional: Setup notify for better notifications
+      -- Setup notify for better notifications
       require("notify").setup({
         background_colour = "#000000",
+        top_down = false,
       })
     end,
   },

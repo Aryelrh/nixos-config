@@ -59,6 +59,10 @@ return {
             end,
             -- Set as root
             ["R"] = "set_root",
+            -- Reset root to home
+            ["<leader>rh"] = function(state)
+              require("neo-tree.sources.filesystem").navigate(state, vim.fn.expand("~"))
+            end,
             -- Open terminal in current directory
             ["T"] = function(state)
               local node = state.tree:get_node()

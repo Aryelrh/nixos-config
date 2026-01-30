@@ -81,6 +81,13 @@ return {
       vim.lsp.config("rust_analyzer", {
         cmd = { nixos_bin .. "/rust-analyzer" },
         on_attach = on_attach,
+        settings = {
+          ["rust-analyzer"] = {
+            checkOnSave = {
+              command = "clippy",
+            },
+          },
+        },
       })
       
       vim.lsp.config("ts_ls", {
@@ -97,6 +104,16 @@ return {
       for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "eslint" }) do
         vim.lsp.enable(server)
       end
+      
+      -- Setup rust_analyzer with FileType autocmd
+      local rust_group = vim.api.nvim_create_augroup("rust_analyzer_setup", { clear = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = rust_group,
+        pattern = "rust",
+        callback = function()
+          vim.lsp.enable("rust_analyzer")
+        end,
+      })
 
       -- Setup jdtls with autocmd (special handling for Java)
       local jdtls_group = vim.api.nvim_create_augroup("jdtls_setup", { clear = true })
@@ -120,15 +137,17 @@ return {
         end,
       })
 
-      -- Diagnostic symbols in signcolumn
-      for name, icon in pairs({
-        Error = " ",
-        Warn = " ",
-        Hint = " ",
-        Info = " ",
-      }) do
-        vim.fn.sign_define("DiagnosticSign" .. name, { text = icon, texthl = "DiagnosticSign" .. name, numhl = "" })
-      end
+      -- Diagnostic symbols in signcolumn (use vim.diagnostic.config instead of sign_define)
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = " ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
+      })
     end,
   },
 
