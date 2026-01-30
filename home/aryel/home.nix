@@ -40,6 +40,11 @@ in
     pkgs.rustfmt
     pkgs.clippy
 
+    #Development tool 
+    pkgs.gcc           
+    pkgs.pkg-config 
+    pkgs.cmake
+
     #Neovim setup (LSP, search, etc...)
     pkgs.ripgrep
     pkgs.fd

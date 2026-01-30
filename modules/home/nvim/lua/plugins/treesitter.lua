@@ -31,8 +31,6 @@ return {
 
         indent = { enable = true },
 
-        autopairs = { enable = true },
-
         incremental_selection = {
           enable = true,
           keymaps = {

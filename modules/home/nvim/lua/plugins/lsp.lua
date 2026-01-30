@@ -52,8 +52,12 @@ return {
         keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
       end
 
-      -- LSP servers setup using vim.lsp.config (new API for 0.11+)
+      -- Setup LSP servers using vim.lsp.config (Neovim 0.11+ API)
+      -- Use explicit paths for NixOS compatibility
+      local nixos_bin = "/etc/profiles/per-user/aryel/bin"
+      
       vim.lsp.config("lua_ls", {
+        cmd = { nixos_bin .. "/lua-language-server" },
         on_attach = on_attach,
         settings = {
           Lua = {
@@ -69,13 +73,30 @@ return {
         },
       })
 
-      vim.lsp.config("pyright", { on_attach = on_attach })
-      vim.lsp.config("rust_analyzer", { on_attach = on_attach })
-      vim.lsp.config("ts_ls", { on_attach = on_attach })
-      vim.lsp.config("eslint", { on_attach = on_attach })
+      vim.lsp.config("pyright", {
+        cmd = { nixos_bin .. "/pyright-langserver", "--stdio" },
+        on_attach = on_attach,
+      })
+      
+      vim.lsp.config("rust_analyzer", {
+        cmd = { nixos_bin .. "/rust-analyzer" },
+        on_attach = on_attach,
+      })
+      
+      vim.lsp.config("ts_ls", {
+        cmd = { nixos_bin .. "/typescript-language-server", "--stdio" },
+        on_attach = on_attach,
+      })
+      
+      vim.lsp.config("eslint", {
+        cmd = { nixos_bin .. "/vscode-eslint-language-server", "--stdio" },
+        on_attach = on_attach,
+      })
 
       -- Enable all configured servers
-      vim.lsp.enable({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "eslint" })
+      for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "eslint" }) do
+        vim.lsp.enable(server)
+      end
 
       -- Setup jdtls with autocmd (special handling for Java)
       local jdtls_group = vim.api.nvim_create_augroup("jdtls_setup", { clear = true })
@@ -92,7 +113,7 @@ return {
               on_attach = on_attach,
               single_file_support = true,
             })
-            vim.lsp.enable({ "jdtls" })
+            vim.lsp.enable("jdtls")
           else
             vim.notify("jdtls not found at: " .. jdtls_cmd, vim.log.levels.WARN)
           end
@@ -230,6 +251,26 @@ return {
           require("conform").format({ async = true, lsp_fallback = true })
         end,
       })
+    end,
+  },
+
+  -- Auto-closing pairs (brackets, quotes, etc)
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({
+        check_ts = true,
+        ts_config = {
+          lua = { "string", "comment" },
+          javascript = { "string", "template_string", "comment" },
+          python = { "string", "comment" },
+        },
+      })
+      -- Integration with nvim-cmp
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      local cmp = require("cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   },
 }
