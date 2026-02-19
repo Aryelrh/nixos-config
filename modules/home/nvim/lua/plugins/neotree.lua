@@ -60,7 +60,7 @@ return {
             -- Set as root
             ["R"] = "set_root",
             -- Reset root to home
-            ["<leader>rh"] = function(state)
+            ["<leader>h"] = function(state)
               require("neo-tree.sources.filesystem").navigate(state, vim.fn.expand("~"))
             end,
             -- Open terminal in current directory

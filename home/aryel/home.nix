@@ -23,16 +23,35 @@ in
 
   #Install packages
   home.packages = [
+    #Wayland essentials
+    pkgs.waybar
+    pkgs.wofi
+    pkgs.dunst
+    
+    #Utilities
+    pkgs.pavucontrol
+    pkgs.fuzzel
+    pkgs.chawan
+
+    #Apss
     pkgs.vscode
     pkgs.spotify
     pkgs.github-desktop
     pkgs.hyprmon
-    pkgs.openjdk21
     pkgs.maven
     pkgs.obsidian
     pkgs.ani-cli
     pkgs.swww
     pkgs.bottom
+    pkgs.jetbrains.clion
+    
+    #R Tooling
+    #RStudio with software rendering
+    (pkgs.writeShellScriptBin "rstudio" ''
+      export QTWEBENGINE_CHROMIUM_FLAGS="--disable-gpu"
+      exec ${pkgs.rstudio}/bin/rstudio "$@"
+    '')
+    pkgs.pandoc
 
     #Rust
     pkgs.rustc
@@ -56,6 +75,12 @@ in
     pkgs.jdt-language-server
   ];
 
+  #Java 21 with JavaFX
+  programs.java = {
+    enable = true;
+    package = pkgs.jdk21.override { enableJavaFX = true; };
+  };
+
   #Cursor
   home.pointerCursor = {
     name = "Adwaita";
@@ -65,7 +90,8 @@ in
 
   #Path variables
   home.sessionVariables = {
-    JAVA_HOME = "${pkgs.openjdk21}";
+    #Java declaration also does this
+    #JAVA_HOME = "${pkgs.openjdk21}";
     MAVEN_HOME = "${pkgs.maven}";
   };
   

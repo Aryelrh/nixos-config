@@ -169,7 +169,7 @@
     kitty
 
     #Cursor
-  #  bibata-cursors
+    #bibata-cursors
     adwaita-icon-theme
     
     #Utilities
@@ -177,19 +177,12 @@
     wget
     fastfetch
     brightnessctl
-    pavucontrol
 
     #Keyring
     gnome-keyring
     libsecret
-
-    #Wayland essentails
-    waybar
-    wofi
-    dunst
     
     #Useful
-    fuzzel
     brave
     power-profiles-daemon
 
@@ -200,11 +193,7 @@
     grimblast
 
     #File manager
-    ranger
     nautilus
-   
-    #Network
-    networkmanagerapplet
   ];
   
  # environment.variables = {
