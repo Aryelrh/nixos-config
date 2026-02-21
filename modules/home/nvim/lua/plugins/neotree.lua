@@ -36,12 +36,23 @@ return {
             ["<CR>"] = function(state)
               local node = state.tree:get_node()
               if node.type == "file" then
-                require("neo-tree.sources.filesystem.commands").open(state)
+                local path = node.path
+                -- Cerrar primero evita que follow_current_file reabra el panel
+                vim.cmd("Neotree close")
                 vim.schedule(function()
-                  vim.cmd("Neotree close")
+                  vim.cmd("edit " .. vim.fn.fnameescape(path))
                 end)
               else
-                require("neo-tree.sources.filesystem.commands").toggle_directory(state)
+                -- Expandir/colapsar usando el nodo directamente (más fiable)
+                if node:is_expanded() then
+                  node:collapse()
+                else
+                  node:expand()
+                  -- Forzar rerender después de cargar hijos
+                  vim.schedule(function()
+                    require("neo-tree.ui.renderer").redraw(state)
+                  end)
+                end
               end
             end,
             ["<Esc>"] = "cancel",

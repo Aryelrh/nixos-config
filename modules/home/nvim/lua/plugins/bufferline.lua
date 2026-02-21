@@ -14,6 +14,11 @@ return {
           diagnostics = "nvim_lsp",
           indicator = { style = "none" },
           enforce_regular_tabs = true,
+          tab_size = 20,
+          max_name_length = 30,
+          -- Hace que los tabs se distribuyan en todo el ancho
+          padding = 1,
+          always_show_bufferline = true,
         },
       })
 
@@ -22,7 +27,7 @@ return {
       local opts = { noremap = true, silent = true }
       keymap("n", "<Tab>", ":BufferLineCycleNext<CR>", opts)
       keymap("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", opts)
-      keymap("n", "<leader>x", ":bdelete<CR>", opts)
+      -- No mapear leader-x aquí, está definido en keymaps.lua
     end,
   },
 }

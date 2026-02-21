@@ -2,7 +2,14 @@
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 
 -- Buffer close (same effect as X in tabs)
-vim.keymap.set("n", "<leader>x", ":bdelete<CR>",  { noremap = true, silent = true, desc = "Close buffer" })
+vim.keymap.set("n", "<leader>x", function()
+  local buftype = vim.bo.buftype
+  if buftype == "terminal" then
+    vim.cmd("bdelete!")
+  else
+    vim.cmd("bdelete")
+  end
+end, { noremap = true, silent = true, desc = "Close buffer" })
 vim.keymap.set("n", "<leader>X", ":bdelete!<CR>", { noremap = true, silent = true, desc = "Force close buffer" })
 vim.keymap.set("t", "<leader>x", "<C-\\><C-n>:bdelete!<CR>", { noremap = true, silent = true, desc = "Close terminal buffer" })
 
@@ -24,3 +31,6 @@ vim.keymap.set("n", "<leader><CR>", ":ToggleTerminalCwd<CR>", { noremap = true, 
 
 -- Delete line shortcuts
 vim.keymap.set("n", "<leader>d", "dd", { noremap = true, silent = true, desc = "Delete current line" })
+
+-- Terminal: salir al modo normal con doble Esc
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
