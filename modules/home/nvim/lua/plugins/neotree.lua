@@ -88,22 +88,24 @@ return {
 
       -- Command to toggle terminal at Neotree root
       vim.api.nvim_create_user_command("ToggleTerminalCwd", function()
-        -- Get the current working directory from Neotree or use vim's cwd
         local cwd = vim.fn.getcwd()
-        
+
         -- Try to get Neotree's current path if it's open
         local success, result = pcall(function()
           local manager = require("neo-tree.sources.manager")
           local source = manager.get_state("filesystem")
           return source.path
         end)
-        
+
         if success and result then
           cwd = result
         end
-        
-        -- Create terminal command
-        vim.cmd("execute 'split | terminal cd " .. vim.fn.fnameescape(cwd) .. " && $SHELL'")
+
+        -- Open terminal in a new buffer (no split)
+        local shell = os.getenv("SHELL") or "bash"
+        vim.cmd("enew")
+        vim.fn.termopen("cd " .. vim.fn.shellescape(cwd) .. " && " .. shell)
+        vim.cmd("startinsert")
       end, {})
     end,
   },
