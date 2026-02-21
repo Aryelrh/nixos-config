@@ -8,10 +8,12 @@ return {
       require("bufferline").setup({
         options = {
           mode = "buffers",
-          separator_style = "slant",
+          separator_style = "thick",
           show_buffer_close_icons = true,
           show_close_icon = false,
-          diagnostics = "nvim_lsp", -- muestra errores LSP en las tabs
+          diagnostics = "nvim_lsp",
+          indicator = { style = "none" },
+          enforce_regular_tabs = true,
         },
       })
 

@@ -93,6 +93,10 @@ return {
       vim.lsp.config("ts_ls", {
         cmd = { nixos_bin .. "/typescript-language-server", "--stdio" },
         on_attach = on_attach,
+        filetypes = {
+          "javascript", "javascriptreact", "javascript.jsx",
+          "typescript", "typescriptreact", "typescript.tsx",
+        },
         init_options = {
           preferences = {
             quotePreference = "single",

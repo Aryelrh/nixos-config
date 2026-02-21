@@ -36,10 +36,12 @@ return {
             ["<CR>"] = function(state)
               local node = state.tree:get_node()
               if node.type == "file" then
-                require("neo-tree.sources.filesystem").open(state)
-                require("neo-tree.command").execute({ action = "close" })
+                require("neo-tree.sources.filesystem.commands").open(state)
+                vim.schedule(function()
+                  vim.cmd("Neotree close")
+                end)
               else
-                require("neo-tree.sources.filesystem").toggle_node(state)
+                require("neo-tree.sources.filesystem.commands").toggle_directory(state)
               end
             end,
             ["<Esc>"] = "cancel",

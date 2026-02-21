@@ -68,6 +68,7 @@ in
     pkgs.ripgrep
     pkgs.fd
     pkgs.nodejs
+    pkgs.nodePackages.typescript-language-server
     pkgs.lua-language-server
     pkgs.pyright
     pkgs.clang-tools
