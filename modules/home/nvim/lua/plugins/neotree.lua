@@ -18,10 +18,18 @@ return {
         close_if_last_window = false,
         enable_git_status = true,
         enable_diagnostics = true,
+        -- Cierra neotree automáticamente cuando se abre cualquier archivo
+        event_handlers = {
+          {
+            event = "file_opened",
+            handler = function()
+              require("neo-tree.command").execute({ action = "close" })
+            end,
+          },
+        },
         filesystem = {
           follow_current_file = {
-            enabled = true,
-            leave_dirs_open = false,
+            enabled = false,
           },
           filtered_items = {
             hide_dotfiles = false,
@@ -36,23 +44,10 @@ return {
             ["<CR>"] = function(state)
               local node = state.tree:get_node()
               if node.type == "file" then
-                local path = node.path
-                -- Cerrar primero evita que follow_current_file reabra el panel
-                vim.cmd("Neotree close")
-                vim.schedule(function()
-                  vim.cmd("edit " .. vim.fn.fnameescape(path))
-                end)
+                -- Abrir el archivo normalmente, event_handlers se encarga de cerrar
+                vim.cmd("edit " .. vim.fn.fnameescape(node.path))
               else
-                -- Expandir/colapsar usando el nodo directamente (más fiable)
-                if node:is_expanded() then
-                  node:collapse()
-                else
-                  node:expand()
-                  -- Forzar rerender después de cargar hijos
-                  vim.schedule(function()
-                    require("neo-tree.ui.renderer").redraw(state)
-                  end)
-                end
+                state.commands["toggle_node"](state)
               end
             end,
             ["<Esc>"] = "cancel",
