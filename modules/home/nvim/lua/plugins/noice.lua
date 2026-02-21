@@ -1,4 +1,4 @@
--- ~/nixos-config/modules/home/nvim/lua/plugins/noice.lua
+-- lua/plugins/noice.lua
 return {
   {
     "folke/noice.nvim",
@@ -17,17 +17,12 @@ return {
           },
         },
         presets = {
-          bottom_search = true,
-          command_palette = true,
+          bottom_search         = true,
+          command_palette       = true,
           long_message_to_split = true,
-          inc_rename = false,
-          lsp_doc_border = false,
-        },
-        cmdline = {
-          enabled = true,
-          view = "cmdline_popup",
         },
         routes = {
+          -- Short messages go to mini (no popup)
           {
             filter = {
               event = "msg_show",
@@ -35,74 +30,18 @@ return {
                 { find = "%d+L, %d+B" },
                 { find = "; after #%d+" },
                 { find = "; before #%d+" },
-                { find = "E37" },
               },
             },
             view = "mini",
           },
+          -- Ignore "No information available" del LSP
           {
-            filter = {
-              event = "notify",
-              find = "No information available",
-            },
-            opts = { skip = true },
-          },
-        },
-        commands = {
-          history = {
-            view = "split",
-            opts = { enter = true, format = "details" },
-            filter = {
-              any = {
-                { event = "notify" },
-                { error = true },
-                { warning = true },
-              },
-            },
-          },
-          last = {
-            view = "popup",
-            opts = { enter = true, format = "details" },
-          },
-          errors = {
-            view = "popup",
-            opts = { enter = true, format = "details" },
-            filter = { error = true },
-          },
-        },
-        views = {
-          notify = {
-            replace = true,
-            merge = true,
-          },
-          hover = {
-            view = "popup",
-          },
-          split = {
-            view = "split",
-            enter = true,
-          },
-          popup = {
-            backend = "popup",
-            relative = "editor",
-            align = "center",
-            border = {
-              style = "rounded",
-              padding = { 0, 1 },
-            },
-            size = {
-              width = "60%",
-              height = "auto",
-            },
-            win_options = {
-              winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-              wrap = true,
-            },
+            filter = { event = "notify", find = "No information available" },
+            opts   = { skip = true },
           },
         },
       })
 
-      -- Setup notify for better notifications
       require("notify").setup({
         background_colour = "#000000",
         top_down = false,

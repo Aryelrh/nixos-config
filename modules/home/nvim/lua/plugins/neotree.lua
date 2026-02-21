@@ -18,7 +18,6 @@ return {
         close_if_last_window = false,
         enable_git_status = true,
         enable_diagnostics = true,
-        -- Cierra neotree automáticamente cuando se abre cualquier archivo
         event_handlers = {
           {
             event = "file_opened",
@@ -28,9 +27,7 @@ return {
           },
         },
         filesystem = {
-          follow_current_file = {
-            enabled = false,
-          },
+          follow_current_file = { enabled = false },
           filtered_items = {
             hide_dotfiles = false,
             hide_gitignored = true,
@@ -40,74 +37,41 @@ return {
           width = 30,
           position = "left",
           mappings = {
-            ["<space>"] = "toggle_node",
             ["<CR>"] = function(state)
               local node = state.tree:get_node()
               if node.type == "file" then
-                -- Abrir el archivo normalmente, event_handlers se encarga de cerrar
-                vim.cmd("edit " .. vim.fn.fnameescape(node.path))
+                local path = node.path
+                -- Focus a window that is not Neotree
+                -- to avoid Neovim create a buffer [No Name]
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                  if vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "neo-tree" then
+                    vim.api.nvim_set_current_win(win)
+                    break
+                  end
+                end
+                vim.cmd("edit " .. vim.fn.fnameescape(path))
               else
                 state.commands["toggle_node"](state)
               end
             end,
+            ["<space>"] = "toggle_node",
             ["<Esc>"] = "cancel",
             ["c"] = "add",
             ["d"] = "delete",
             ["r"] = "rename",
-            -- Expand/Collapse all
-            ["E"] = function(state)
-              local renderer = require("neo-tree.ui.renderer")
-              for _, node in ipairs(state.tree:get_nodes()) do
-                if node:has_children() then
-                  node:expand()
-                end
-              end
-              renderer.redraw(state)
-            end,
-            ["W"] = function(state)
-              local renderer = require("neo-tree.ui.renderer")
-              for _, node in ipairs(state.tree:get_nodes()) do
-                if node:has_children() then
-                  node:collapse()
-                end
-              end
-              renderer.redraw(state)
-            end,
-            -- Set as root
             ["R"] = "set_root",
-            -- Reset root to home
-            ["<leader>h"] = function(state)
-              require("neo-tree.sources.filesystem").navigate(state, vim.fn.expand("~"))
-            end,
-            -- Open terminal in current directory
-            ["T"] = function(state)
-              local node = state.tree:get_node()
-              local path = node.path
-              if node.type == "file" then
-                path = node.parent.path
-              end
-              vim.cmd("execute 'split | terminal cd " .. vim.fn.fnameescape(path) .. " && $SHELL'")
-            end,
           },
         },
       })
 
-      -- Command to toggle terminal at Neotree root
+      -- Terminal in new buffer
       vim.api.nvim_create_user_command("ToggleTerminalCwd", function()
         local cwd = vim.fn.getcwd()
-
-        -- Try to get Neotree's current path if it's open
-        local success, result = pcall(function()
-          local manager = require("neo-tree.sources.manager")
-          local source = manager.get_state("filesystem")
-          return source.path
+        local ok, result = pcall(function()
+          return require("neo-tree.sources.manager").get_state("filesystem").path
         end)
+        if ok and result then cwd = result end
 
-        if success and result then
-          cwd = result
-        end
-
-        -- Open terminal in a new buffer (no split)
         local shell = os.getenv("SHELL") or "bash"
         vim.cmd("enew")
         vim.fn.termopen("cd " .. vim.fn.shellescape(cwd) .. " && " .. shell)
@@ -116,4 +80,5 @@ return {
     end,
   },
 }
+
 
