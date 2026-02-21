@@ -127,6 +127,11 @@ return {
         },
       })
 
+      -- HTML, CSS, JSON (vscode-langservers-extracted)
+      -- These can be used with lspconfig if configured properly
+      -- For now, ts_ls handles HTML/JS and basic JSON
+      -- Advanced HTML/CSS/JSON support is optional
+
       -- Enable all configured servers
       for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls" }) do
         vim.lsp.enable(server)

@@ -73,6 +73,14 @@ in
     pkgs.clang-tools
     pkgs.rust-analyzer
     pkgs.jdt-language-server
+    pkgs.nodePackages.vscode-langservers-extracted  # HTML, CSS, JSON LSP
+    
+    #Neovim formatters
+    pkgs.stylua                  # Lua formatter
+    pkgs.nodePackages.prettier   # JavaScript/TypeScript formatter
+    pkgs.black                   # Python formatter
+    pkgs.isort                   # Python import sorter
+    pkgs.google-java-format      # Java formatter
   ];
 
   #Java 21 with JavaFX

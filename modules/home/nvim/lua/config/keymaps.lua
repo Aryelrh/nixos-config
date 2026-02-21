@@ -1,9 +1,8 @@
 -- General keymaps
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 
--- Buffer navigation with Tab
-vim.keymap.set("n", "<Tab>", ":bnext<CR>", { noremap = true, silent = true, desc = "Next buffer" })
-vim.keymap.set("n", "<S-Tab>", ":bprev<CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+-- Buffer close (bufferline handles Tab navigation)
+vim.keymap.set("n", "<leader>x", ":bdelete<CR>", { noremap = true, silent = true, desc = "Close buffer" })
 
 -- Standard editor shortcuts
 vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true, desc = "Undo" })
