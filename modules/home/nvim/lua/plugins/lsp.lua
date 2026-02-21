@@ -13,7 +13,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls", "pyright", "rust_analyzer",
-          "ts_ls", "eslint",
+          "ts_ls",
         },
       })
     end,
@@ -93,15 +93,42 @@ return {
       vim.lsp.config("ts_ls", {
         cmd = { nixos_bin .. "/typescript-language-server", "--stdio" },
         on_attach = on_attach,
-      })
-      
-      vim.lsp.config("eslint", {
-        cmd = { nixos_bin .. "/vscode-eslint-language-server", "--stdio" },
-        on_attach = on_attach,
+        init_options = {
+          preferences = {
+            quotePreference = "single",
+            importModuleSpecifierPreference = "relative",
+          },
+        },
+        settings = {
+          javascript = {
+            suggest = {
+              autoImports = true,
+            },
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+            },
+          },
+          typescript = {
+            suggest = {
+              autoImports = true,
+            },
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+            },
+          },
+        },
       })
 
       -- Enable all configured servers
-      for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "eslint" }) do
+      for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls" }) do
         vim.lsp.enable(server)
       end
       

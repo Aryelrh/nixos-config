@@ -20,3 +20,6 @@ vim.keymap.set("n", "<C-v>", '"+p', { noremap = true, silent = true, desc = "Pas
 
 -- Terminal toggle
 vim.keymap.set("n", "<leader><CR>", ":ToggleTerminalCwd<CR>", { noremap = true, silent = true, desc = "Toggle terminal at Neotree root" })
+
+-- Delete line shortcuts
+vim.keymap.set("n", "<leader>d", "dd", { noremap = true, silent = true, desc = "Delete current line" })

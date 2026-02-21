@@ -33,7 +33,15 @@ return {
           position = "left",
           mappings = {
             ["<space>"] = "toggle_node",
-            ["<CR>"] = "open",
+            ["<CR>"] = function(state)
+              local node = state.tree:get_node()
+              if node.type == "file" then
+                require("neo-tree.sources.filesystem").open(state)
+                require("neo-tree.command").execute({ action = "close" })
+              else
+                require("neo-tree.sources.filesystem").toggle_node(state)
+              end
+            end,
             ["<Esc>"] = "cancel",
             ["c"] = "add",
             ["d"] = "delete",
