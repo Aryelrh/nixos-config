@@ -37,23 +37,6 @@ return {
           width = 30,
           position = "left",
           mappings = {
-            ["<CR>"] = function(state)
-              local node = state.tree:get_node()
-              if node.type == "file" then
-                local path = node.path
-                -- Focus a window that is not Neotree
-                -- to avoid Neovim create a buffer [No Name]
-                for _, win in ipairs(vim.api.nvim_list_wins()) do
-                  if vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "neo-tree" then
-                    vim.api.nvim_set_current_win(win)
-                    break
-                  end
-                end
-                vim.cmd("edit " .. vim.fn.fnameescape(path))
-              else
-                state.commands["toggle_node"](state)
-              end
-            end,
             ["<space>"] = "toggle_node",
             ["<Esc>"] = "cancel",
             ["c"] = "add",

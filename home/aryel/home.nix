@@ -64,6 +64,9 @@ in
     pkgs.pkg-config 
     pkgs.cmake
 
+    #Python
+    pkgs.python3
+
     #Neovim setup (LSP, search, etc...)
     pkgs.ripgrep
     pkgs.fd
