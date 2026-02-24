@@ -177,6 +177,7 @@
     wget
     fastfetch
     brightnessctl
+    acpi
 
     #Keyring
     gnome-keyring

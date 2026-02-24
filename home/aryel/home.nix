@@ -32,6 +32,7 @@ in
     pkgs.pavucontrol
     pkgs.fuzzel
     pkgs.chawan
+    pkgs.lavat
 
     #Apss
     pkgs.vscode
