@@ -92,7 +92,14 @@ return {
 				end,
 			})
 
-			for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls" }) do
+			-- SQL
+			vim.lsp.config("sqls", {
+				cmd = { bin .. "/sqls" },
+				on_attach = on_attach,
+				filetypes = { "sql", "mysql" },
+			})
+
+			for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "sqls" }) do
 				vim.lsp.enable(server)
 			end
 
