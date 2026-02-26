@@ -33,37 +33,37 @@ return {
       -- Fold settings
       vim.g.vimtex_fold_enabled = 1
       vim.g.vimtex_fold_types = {
-        envs = { enabled = 1 },
-        env_options = {},
-        cmd_single = { enabled = 1 },
-        sections = { enabled = 1 },
-        markers = {},
-        comments = { enabled = 0 },
-        preamble = { enabled = 1 },
-        items = { enabled = 1 },
+        envs        = { enabled = 1 },
+        cmd_single  = { enabled = 1 },
+        sections    = { enabled = 1 },
+        comments    = { enabled = 0 },
+        preamble    = { enabled = 1 },
+        items       = { enabled = 1 },
       }
     end,
     config = function()
       -- Keymaps (complement vimtex's built-in <localleader>l* mappings)
-      local km = vim.keymap.set
-      local opts = { noremap = true, silent = true }
+      local map = function(key, cmd, desc)
+        vim.keymap.set("n", key, "<cmd>" .. cmd .. "<CR>",
+          { noremap = true, silent = true, desc = "VimTeX: " .. desc })
+      end
 
       -- Compile
-      km("n", "<leader>lc", "<cmd>VimtexCompile<CR>",        vim.tbl_extend("force", opts, { desc = "VimTeX: toggle compilation" }))
-      km("n", "<leader>ls", "<cmd>VimtexCompileSS<CR>",      vim.tbl_extend("force", opts, { desc = "VimTeX: single-shot compile" }))
-      km("n", "<leader>lo", "<cmd>VimtexCompileOutput<CR>",  vim.tbl_extend("force", opts, { desc = "VimTeX: show compile output" }))
+      map("<leader>lc", "VimtexCompile",       "toggle compilation")
+      map("<leader>ls", "VimtexCompileSS",     "single-shot compile")
+      map("<leader>lo", "VimtexCompileOutput", "show compile output")
 
       -- View
-      km("n", "<leader>lv", "<cmd>VimtexView<CR>",           vim.tbl_extend("force", opts, { desc = "VimTeX: view PDF (Zathura)" }))
+      map("<leader>lv", "VimtexView",          "view PDF (Zathura)")
 
       -- Clean
-      km("n", "<leader>lx", "<cmd>VimtexClean<CR>",          vim.tbl_extend("force", opts, { desc = "VimTeX: clean aux files" }))
-      km("n", "<leader>lX", "<cmd>VimtexClean!<CR>",         vim.tbl_extend("force", opts, { desc = "VimTeX: full clean" }))
+      map("<leader>lx", "VimtexClean",         "clean aux files")
+      map("<leader>lX", "VimtexClean!",        "full clean")
 
       -- Errors / info
-      km("n", "<leader>le", "<cmd>VimtexErrors<CR>",         vim.tbl_extend("force", opts, { desc = "VimTeX: show errors" }))
-      km("n", "<leader>li", "<cmd>VimtexInfo<CR>",           vim.tbl_extend("force", opts, { desc = "VimTeX: project info" }))
-      km("n", "<leader>lt", "<cmd>VimtexTocToggle<CR>",      vim.tbl_extend("force", opts, { desc = "VimTeX: toggle TOC" }))
+      map("<leader>le", "VimtexErrors",        "show errors")
+      map("<leader>li", "VimtexInfo",          "project info")
+      map("<leader>lt", "VimtexTocToggle",     "toggle TOC")
     end,
   },
 }
