@@ -209,6 +209,11 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  services.logind = {
+    powerKey = "ignore";
+  };
+   
+
   #Polkit (for permissions)
   security.polkit.enable = true;
 

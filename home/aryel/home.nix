@@ -45,6 +45,7 @@ in
     pkgs.swww
     pkgs.bottom
     pkgs.jetbrains.clion
+    pkgs.discordo
     
     #R Tooling
     #RStudio with software rendering
@@ -87,6 +88,9 @@ in
     pkgs.black                   # Python formatter
     pkgs.isort                   # Python import sorter
     pkgs.google-java-format      # Java formatter
+
+    #LaTeX PDF Viewer
+    pkgs.zathura                           # PDF viewer with SyncTeX (forward/inverse search)                             # required by latexmk
   ];
 
   #Java 21 with JavaFX
@@ -111,6 +115,16 @@ in
   
   #Declarative symlinks for Lua config
   home.file.".config/nvim".source = nvimConfigPath;
+
+  #Zathura PDF viewer (used by vimtex for forward/inverse search via SyncTeX)
+  programs.zathura = {
+    enable = true;
+    options = {
+      synctex             = true;   # vimtex passes --synctex-editor-cmd automatically on forward search
+      selection-clipboard = "clipboard";
+      recolor             = false;
+    };
+  };
 
   #Alias
   programs.bash = {
