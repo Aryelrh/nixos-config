@@ -46,6 +46,9 @@ in
     pkgs.bottom
     pkgs.jetbrains.clion
     pkgs.discordo
+
+    #Java
+    pkgs.jdk21
     
     #R Tooling
     #RStudio with software rendering
@@ -92,12 +95,6 @@ in
     #LaTeX PDF Viewer
     pkgs.zathura                           # PDF viewer with SyncTeX (forward/inverse search)                             # required by latexmk
   ];
-
-  #Java 21 with JavaFX
-  programs.java = {
-    enable = true;
-    package = pkgs.jdk21.override { enableJavaFX = true; };
-  };
 
   #Cursor
   home.pointerCursor = {
