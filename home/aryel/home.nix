@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 let
   #Relative path to absolute path
@@ -123,6 +123,10 @@ in
       recolor             = false;
     };
   };
+
+  imports = [
+    ../../modules/home/hyprland/default.nix
+  ];
 
   #Alias
   programs.bash = {
