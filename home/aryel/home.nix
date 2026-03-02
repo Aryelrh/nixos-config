@@ -46,6 +46,7 @@ in
     pkgs.bottom
     pkgs.jetbrains.clion
     pkgs.discordo
+    pkgs.helix
 
     #Java
     pkgs.jdk21

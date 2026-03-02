@@ -93,12 +93,15 @@
 
   # Configure console keymap
   console.keyMap = "us-acentos";
+  
+  #Docker activation
+  virtualisation.docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aryel = {
     isNormalUser = true;
     description = "aryel";
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "docker" ];
     packages = with pkgs; [];
   };
 
