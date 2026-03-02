@@ -89,8 +89,7 @@ in
     
     #Neovim formatters
     pkgs.stylua                  # Lua formatter
-    pkgs.nodePackages.prettier   # JavaScript/TypeScript formatter
-    pkgs.nodePackages.live-server  # Live Server para HTML en tiempo real
+    pkgs.nodePackages.prettier      # JavaScript/TypeScript formatter
     pkgs.black                   # Python formatter
     pkgs.isort                   # Python import sorter
     pkgs.google-java-format      # Java formatter
