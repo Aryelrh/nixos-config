@@ -47,6 +47,7 @@ in
     pkgs.jetbrains.clion
     pkgs.discordo
     pkgs.helix
+    pkgs.onlyoffice-desktopeditors
 
     #Java
     pkgs.jdk21
