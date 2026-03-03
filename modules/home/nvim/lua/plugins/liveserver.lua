@@ -21,7 +21,7 @@ end
 
 local function start()
   if job_id then
-    vim.notify("Live Server ya está corriendo", vim.log.levels.WARN, { title = "Live Server" })
+    vim.notify("Live Server is running", vim.log.levels.WARN, { title = "Live Server" })
     notify_url()
     return
   end
@@ -30,7 +30,7 @@ local function start()
     { "npx", "live-server", "--port=" .. tostring(port), "--no-browser" },
     { cwd = cwd, detach = false }
   )
-  vim.notify("Live Server iniciando...", vim.log.levels.INFO, { title = "Live Server" })
+  vim.notify("Live Server starting...", vim.log.levels.INFO, { title = "Live Server" })
   vim.defer_fn(notify_url, 1500)
 end
 
@@ -38,9 +38,9 @@ local function stop()
   if job_id then
     vim.fn.jobstop(job_id)
     job_id = nil
-    vim.notify("Live Server detenido", vim.log.levels.INFO, { title = "Live Server" })
+    vim.notify("Live Server stop", vim.log.levels.INFO, { title = "Live Server" })
   else
-    vim.notify("Live Server no está corriendo", vim.log.levels.WARN, { title = "Live Server" })
+    vim.notify("Live Server is not running", vim.log.levels.WARN, { title = "Live Server" })
   end
 end
 
@@ -49,9 +49,9 @@ return {
     "nvim-lua/plenary.nvim",
     ft = { "html", "css", "javascript" },
     keys = {
-      { "<leader>lu", start,      desc = "Live Server: iniciar y mostrar link" },
-      { "<leader>ll", notify_url, desc = "Live Server: mostrar link del archivo" },
-      { "<leader>lx", stop,       desc = "Live Server: detener" },
+      { "<leader>lu", start,      desc = "Live Server: start and show link" },
+      { "<leader>ll", notify_url, desc = "Live Server: show link" },
+      { "<leader>lx", stop,       desc = "Live Server: stop" },
     },
   },
 }
