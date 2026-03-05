@@ -4,6 +4,10 @@ let
   hyprexpo = inputs.hyprland-plugins.packages.${pkgs.system}.hyprexpo;
 in
 {
+
+  home.file.".local/bin/toggle-monitors.sh".source = ./toggle-monitors.sh;
+  home.file.".local/bin/toggle-monitors.sh".executable = true;
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -82,6 +86,9 @@ in
         animation = workspaces, 1, 9, default, slide
       }
 
+      #Toggle monitor script
+      bind = $mod, F7, exec, ~/.local/bin/toggle-monitors.sh
+      
       $mod = SUPER
 
       # Apps
@@ -93,6 +100,7 @@ in
 
       # Session
       bind = $mod SHIFT, Q, exit,
+      bind = $mod, F7, exec, /toggle-monitors.sh
 
       # Windows
       bind = $mod, F, fullscreen, 0

@@ -181,6 +181,9 @@
     fastfetch
     brightnessctl
     acpi
+    unzip
+    unrar
+    p7zip
 
     #Keyring
     gnome-keyring
