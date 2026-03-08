@@ -5,9 +5,6 @@ let
 in
 {
 
-  home.file.".local/bin/toggle-monitors.sh".source = ./toggle-monitors.sh;
-  home.file.".local/bin/toggle-monitors.sh".executable = true;
-
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -86,11 +83,9 @@ in
         animation = workspaces, 1, 9, default, slide
       }
 
-      #Toggle monitor script
-      bind = $mod, F7, exec, ~/.local/bin/toggle-monitors.sh
-      
+      #Set a mod key
       $mod = SUPER
-
+      
       # Apps
       bind = $mod, T, exec, kitty
       bind = $mod, Q, killactive,
@@ -168,7 +163,7 @@ in
 
       plugin {
         hyprexpo {
-          columns = 3
+          columns = 2
           gap_size = 5
           bg_col = rgb(111111)
           workspace_method = first 1

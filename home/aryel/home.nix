@@ -24,6 +24,7 @@ in
   #Install packages
   home.packages = [
     #Wayland essentials
+    pkgs.wlr-randr
     pkgs.waybar
     pkgs.wofi
     pkgs.dunst

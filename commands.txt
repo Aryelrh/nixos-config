@@ -1,0 +1,11 @@
+Enable monitor
+hyprctl keyword monitor "HDMI-A-1,1920x1080@100,1920x0,1"
+
+Disable monitor
+hyprctl keyword monitor "HDMI-A-1,disable"
+
+Disable laptop screen
+hyprctl keyword monitor "eDP-1,disable"
+
+Enable monitor
+hyprctl keyword monitor "eDP-1,1920x1080@60,0x0,1"
