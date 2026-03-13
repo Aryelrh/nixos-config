@@ -146,6 +146,15 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  #Seatd
+  services.seatd.enable = true;
+  
+  #Portal
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
+
   #Hyprland
   programs.hyprland = {
     enable = true;

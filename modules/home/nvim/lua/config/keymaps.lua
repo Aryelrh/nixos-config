@@ -34,3 +34,8 @@ vim.keymap.set("n", "<leader>d", "dd", { noremap = true, silent = true, desc = "
 
 -- Terminal: salir al modo normal con doble Esc
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
+
+-- Markdown render toggle
+vim.keymap.set("n", "<leader>mr", function()
+  require("render-markdown").toggle()
+end, { noremap = true, silent = true, desc = "Toggle markdown render" })

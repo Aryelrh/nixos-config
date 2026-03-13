@@ -12,7 +12,7 @@ return {
         ensure_installed = {
           "lua", "vim", "vimdoc",
           "python", "javascript", "typescript", "tsx", "css", "html",
-          "rust", "java", "json", "yaml", "markdown", "latex",
+          "rust", "java", "json", "yaml", "markdown", "markdown_inline", "latex",
         },
         highlight = {
           enable = true,

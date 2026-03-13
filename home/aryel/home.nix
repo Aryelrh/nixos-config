@@ -34,12 +34,12 @@ in
     pkgs.fuzzel
     pkgs.chawan
     pkgs.lavat
+    pkgs.papirus-icon-theme
 
     #Apss
     pkgs.vscode
     pkgs.spotify
     pkgs.github-desktop
-    pkgs.hyprmon
     pkgs.maven
     pkgs.obsidian
     pkgs.ani-cli
@@ -105,6 +105,21 @@ in
     package = pkgs.adwaita-icon-theme;
     size = 24;
   };   
+
+  #GTK theme
+  gtk = {
+    enable = true;
+
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
 
   #Path variables
   home.sessionVariables = {

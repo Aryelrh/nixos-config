@@ -115,14 +115,14 @@
       bindm = $mod, mouse:273, resizewindow
 
       # Persistent workspaces (fija 9 workspaces para el grid 3x3)
-      workspace = 1, persistent:false
-      workspace = 2, persistent:false
-      workspace = 3, persistent:false
-      workspace = 4, persistent:false
-      workspace = 5, persistent:false
-      workspace = 6, persistent:false
-      workspace = 7, persistent:false
-      workspace = 8, persistent:false
+      workspace = 1, persistent:true
+      workspace = 2, persistent:true
+      workspace = 3, persistent:true
+      workspace = 4, persistent:true
+      workspace = 5, persistent:true
+      workspace = 6, persistent:true
+      workspace = 7, persistent:true
+      workspace = 8, persistent:true
       workspace = 9, persistent:false
 
       # Workspaces
