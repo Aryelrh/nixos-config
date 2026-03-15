@@ -59,7 +59,8 @@
   #Secret Service (passwords)
   services.gnome.gnome-keyring.enable = true;
 
-  #Power Profiles Service
+  #Dconf database (required for GNOME apps to store settings)
+  programs.dconf.enable = true;
   services.power-profiles-daemon.enable = true;
 
   #PAM: Unlock the keyring when log in
@@ -152,7 +153,13 @@
   #Portal
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    configPackages = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    config = {
+      common.default = "*";
+      hyprland.default = [ "hyprland" "gtk" ];
+      "org.freedesktop.impl.portal.FileChooser".default = "gtk";
+    };
   };
 
   #Hyprland
@@ -210,12 +217,18 @@
 
     #File manager
     nautilus
+    
+    #GSettings schemas (required by MongoDB Compass and GNOME apps)
+    gsettings-desktop-schemas
+    glib
   ];
   
- # environment.variables = {
- #   XCURSOR_THEME = "Adwaita";
- #   XCURSOR_SIZE = "24";
- # };
+  environment.sessionVariables = {
+    #GSettings for GNOME apps (MongoDB Compass, etc)
+    XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share:${pkgs.glib}/share:/usr/local/share:/usr/share";
+    #Electron apps should use XWayland (more stable in Wayland)
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+  };
 
   fonts.packages = with pkgs; [
     noto-fonts

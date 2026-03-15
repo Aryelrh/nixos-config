@@ -49,6 +49,7 @@ in
     pkgs.discordo
     pkgs.helix
     pkgs.onlyoffice-desktopeditors
+    pkgs.mongodb-compass
 
     #Java
     pkgs.jdk21
@@ -97,9 +98,14 @@ in
 
     #LaTeX PDF Viewer
     pkgs.zathura                           # PDF viewer with SyncTeX (forward/inverse search)                             # required by latexmk
+    
+    #Wayland file picker and polkit agent
+    pkgs.polkit_gnome
+    
+    #GSettings schemas (required by MongoDB Compass and other GNOME apps)
+    pkgs.gsettings-desktop-schemas
+    pkgs.glib
   ];
-
-  #Cursor
   home.pointerCursor = {
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
@@ -126,6 +132,10 @@ in
     #Java declaration also does this
     #JAVA_HOME = "${pkgs.openjdk21}";
     MAVEN_HOME = "${pkgs.maven}";
+    
+    #Intel Iris Xe GPU optimization
+    MESA_LOADER_DRIVER_OVERRIDE = "iris";
+    MESA_NO_ERROR = "1";
   };
   
   #Declarative symlinks for Lua config

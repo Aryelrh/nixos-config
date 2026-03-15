@@ -19,9 +19,12 @@
       env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
       env = QT_LOGGING_RULES,*.debug=false;qt.qpa.*=false
      
-      #Fixing the crash
+      #Fixing the crash (Intel Iris Xe specific)
       env = HYPRLAND_NO_HARDWARE_CURSORS,1   
       env = WLR_NO_HARDWARE_CURSORS,1
+      env = MESA_LOADER_DRIVER_OVERRIDE,iris
+      env = MESA_NO_ERROR,1
+      env = LIBGL_ALWAYS_INDIRECT,0
 
       monitor=eDP-1,0x0@60.00,-1x-1,1.00
       monitor=HDMI-A-1,1920x1080@100.00,1920x0,1.00
@@ -30,6 +33,7 @@
       exec-once = nm-applet &
       exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = gnome-keyring-daemon --start --components=secrets
+      exec-once = /usr/libexec/polkit-gnome-authentication-agent-1 &
       exec-once = swww-daemon
       exec-once = swww img ~/Pictures/Wallpapers/GreenBlack.jpg
       exec-once = /usr/libexec/xdg-desktop-portal -r
