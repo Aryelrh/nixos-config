@@ -40,10 +40,27 @@
   nix.settings.auto-optimise-store = true;
 
   #Sway idle and lock
-  programs.hyprlock.enable = true;
+  programs.swaylock.enable = true;
 
-  services.hypridle = {
+  services.swayidle = {
     enable = true;
+    events = [
+      {
+        event = "before-sleep";
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
+      }
+    ];
+    timeouts = [
+      {
+        timeout = 300;
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
+      }
+      {
+        timeout = 600;
+        command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+        resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
+      }
+    ];
   };
 
   #Flatpak, for Sober

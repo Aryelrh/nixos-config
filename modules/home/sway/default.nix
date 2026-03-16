@@ -134,7 +134,6 @@
         { command = "/usr/libexec/xdg-desktop-portal -r"; }
         { command = "xdg-desktop-portal-wlr"; }
         { command = "xsettingsd"; }
-        { command = "hypridle"; }
       ];
     };
 
@@ -156,5 +155,17 @@
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_LOGGING_RULES = "*.debug=false;qt.qpa.*=false";
     WLR_NO_HARDWARE_CURSORS = "1";
+  };
+
+  # Swaylock configuration
+  home.file.".config/swaylock/config".source = ./config/swaylock.conf;
+
+  # Swayidle configuration
+  home.file.".config/swayidle/config".source = ./config/swayidle.conf;
+
+  # Suspend script
+  home.file.".config/sway/scripts/suspend.sh" = {
+    source = ./scripts/suspend.sh;
+    executable = true;
   };
 }
