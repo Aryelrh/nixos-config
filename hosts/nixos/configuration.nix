@@ -39,7 +39,7 @@
   #Clean the disk deleting duplicates
   nix.settings.auto-optimise-store = true;
 
-  #Hyprland idle and lock
+  #Sway idle and lock
   programs.hyprlock.enable = true;
 
   services.hypridle = {
@@ -153,19 +153,19 @@
   #Portal
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
-    configPackages = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
+    configPackages = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
     config = {
       common.default = "*";
-      hyprland.default = [ "hyprland" "gtk" ];
+      sway.default = [ "wlr" "gtk" ];
       "org.freedesktop.impl.portal.FileChooser".default = "gtk";
     };
   };
 
-  #Hyprland
-  programs.hyprland = {
+  #Sway
+  programs.sway = {
     enable = true;
-    xwayland.enable = true;
+    xwayland = true;
   };
 
   #Terminal interface improvement

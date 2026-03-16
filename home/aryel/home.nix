@@ -166,7 +166,7 @@ in
   ];
 
   imports = [
-    ../../modules/home/hyprland/default.nix
+    ../../modules/home/sway/default.nix
   ];
 
   #Alias
