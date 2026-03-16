@@ -43,13 +43,8 @@
         outer = 5;
       };
 
-      floating = {
-        border = 2;
-      };
-
-      window = {
-        border = 2;
-      };
+      # Disable default sway bar
+      bars = [];
 
       colors = {
         focused = {
@@ -58,6 +53,20 @@
           childBorder = "#7ad3be";
           indicator = "#7ad3be";
           text = "#ffffff";
+        };
+        focusedInactive = {
+          background = "#141414";
+          border = "#7ad3be";
+          childBorder = "#7ad3be";
+          indicator = "#7ad3be";
+          text = "#ffffff";
+        };
+        unfocused = {
+          background = "#141414";
+          border = "#444444";
+          childBorder = "#444444";
+          indicator = "#444444";
+          text = "#888888";
         };
       };
 
@@ -76,9 +85,13 @@
         "${modifier}+f" = "fullscreen";
         "${modifier}+v" = "floating toggle";
 
-        # Scroll through workspaces
+        # Scroll through workspaces with mouse wheel while holding Mod key
         "${modifier}+button4" = "workspace prev";
         "${modifier}+button5" = "workspace next";
+
+        # Direct mouse wheel scrolling for workspace navigation
+        "button8" = "workspace prev";
+        "button9" = "workspace next";
 
         # Move / resize
         "${modifier}+button1" = "move";
@@ -106,7 +119,7 @@
         "${modifier}+shift+9" = "move container to workspace 9";
 
         # Screenshot
-        "${modifier}+shift+s" = "exec 'grimblast --freeze copy area'";
+        "${modifier}+shift+s" = "exec grim -g \"$(slurp)\" - | wl-copy";
 
         # Audio
         "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -124,7 +137,7 @@
 
       # Startup commands
       startup = [
-        { command = "waybar -c ~/.config/waybar/config -s ~/.config/waybar/style.css"; }
+        { command = "waybar"; }
         { command = "nm-applet"; }
         { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"; }
         { command = "gnome-keyring-daemon --start --components=secrets"; }
@@ -141,6 +154,10 @@
     extraConfig = ''
       set $XCURSOR_THEME Bibata-Modern-Ice
       set $XCURSOR_SIZE 24
+
+      # Remove all decorations and use only colored pixel borders
+      default_border pixel 2
+      default_floating_border pixel 2
     '';
   };
 
@@ -160,8 +177,24 @@
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ./config/swaylock.conf;
 
-  # Swayidle configuration
-  home.file.".config/swayidle/config".source = ./config/swayidle.conf;
+  # Swayidle service
+  services.swayidle = {
+    enable = true;
+    events = {
+      "before-sleep" = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
+    };
+    timeouts = [
+      {
+        timeout = 300;
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
+      }
+      {
+        timeout = 600;
+        command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+        resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
+      }
+    ];
+  };
 
   # Suspend script
   home.file.".config/sway/scripts/suspend.sh" = {

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -38,30 +38,6 @@
 
   #Clean the disk deleting duplicates
   nix.settings.auto-optimise-store = true;
-
-  #Sway idle and lock
-  programs.swaylock.enable = true;
-
-  services.swayidle = {
-    enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
-      }
-    ];
-    timeouts = [
-      {
-        timeout = 300;
-        command = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
-      }
-      {
-        timeout = 600;
-        command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
-        resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
-      }
-    ];
-  };
 
   #Flatpak, for Sober
   services.flatpak.enable = true;
@@ -174,7 +150,7 @@
     configPackages = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
     config = {
       common.default = "*";
-      sway.default = [ "wlr" "gtk" ];
+      sway.default = lib.mkForce [ "wlr" "gtk" ];
       "org.freedesktop.impl.portal.FileChooser".default = "gtk";
     };
   };
@@ -182,7 +158,7 @@
   #Sway
   programs.sway = {
     enable = true;
-    xwayland = true;
+    xwayland = {};
   };
 
   #Terminal interface improvement
@@ -255,7 +231,11 @@
   ];
 
   services.logind = {
-    powerKey = "ignore";
+    settings = {
+      Login = {
+        HandlePowerKey = "ignore";
+      };
+    };
   };
    
 
