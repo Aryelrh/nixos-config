@@ -54,20 +54,20 @@
           indicator = "#7ad3be";
           text = "#ffffff";
         };
-        focusedInactive = {
-          background = "#141414";
-          border = "#7ad3be";
-          childBorder = "#7ad3be";
-          indicator = "#7ad3be";
-          text = "#ffffff";
-        };
-        unfocused = {
-          background = "#141414";
-          border = "#444444";
-          childBorder = "#444444";
-          indicator = "#444444";
-          text = "#888888";
-        };
+       # focusedInactive = {
+         # background = "#141414";
+         # border = "#7ad3be";
+         # childBorder = "#7ad3be";
+         # indicator = "#7ad3be";
+         # text = "#ffffff";
+       # };
+       # unfocused = {
+         # background = "#141414";
+         # border = "#444444";
+         # childBorder = "#444444";
+         # indicator = "#444444";
+         # text = "#888888";
+       # };
       };
 
       # Apps
@@ -138,6 +138,7 @@
       # Startup commands
       startup = [
         { command = "waybar"; }
+        { command = "autotiling-rs"; }
         { command = "nm-applet"; }
         { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"; }
         { command = "gnome-keyring-daemon --start --components=secrets"; }
@@ -158,6 +159,11 @@
       # Remove all decorations and use only colored pixel borders
       default_border pixel 2
       default_floating_border pixel 2
+      smart_borders on
+
+      # Gestures for workspaces navigation
+      bindgesture swipe:3:right workspace prev
+      bindgesture swipe:3:left workspace next
     '';
   };
 

@@ -28,6 +28,7 @@ in
     pkgs.waybar
     pkgs.wofi
     pkgs.dunst
+    pkgs.autotiling-rs
     
     #Utilities
     pkgs.pavucontrol
@@ -35,6 +36,9 @@ in
     pkgs.chawan
     pkgs.lavat
     pkgs.papirus-icon-theme
+    pkgs.swayimg
+    pkgs.mpv
+    pkgs.cmus
 
     #Apss
     pkgs.vscode
