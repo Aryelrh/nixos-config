@@ -108,15 +108,15 @@
         "${modifier}+8" = "workspace 8";
         "${modifier}+9" = "workspace 9";
 
-        "${modifier}+shift+1" = "move container to workspace 1";
-        "${modifier}+shift+2" = "move container to workspace 2";
-        "${modifier}+shift+3" = "move container to workspace 3";
-        "${modifier}+shift+4" = "move container to workspace 4";
-        "${modifier}+shift+5" = "move container to workspace 5";
-        "${modifier}+shift+6" = "move container to workspace 6";
-        "${modifier}+shift+7" = "move container to workspace 7";
-        "${modifier}+shift+8" = "move container to workspace 8";
-        "${modifier}+shift+9" = "move container to workspace 9";
+        "${modifier}+shift+1" = "move container to workspace 1; workspace 1";
+        "${modifier}+shift+2" = "move container to workspace 2; workspace 2";
+        "${modifier}+shift+3" = "move container to workspace 3; workspace 3";
+        "${modifier}+shift+4" = "move container to workspace 4; workspace 4";
+        "${modifier}+shift+5" = "move container to workspace 5; workspace 5";
+        "${modifier}+shift+6" = "move container to workspace 6; workspace 6";
+        "${modifier}+shift+7" = "move container to workspace 7; workspace 7";
+        "${modifier}+shift+8" = "move container to workspace 8; workspace 8";
+        "${modifier}+shift+9" = "move container to workspace 9; workspace 9";
 
         # Screenshot
         "${modifier}+shift+s" = "exec grim -g \"$(slurp)\" - | wl-copy";
