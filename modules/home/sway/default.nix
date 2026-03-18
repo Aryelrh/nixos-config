@@ -148,7 +148,6 @@
         { command = "/usr/libexec/xdg-desktop-portal -r"; }
         { command = "xdg-desktop-portal-wlr"; }
         { command = "xsettingsd"; }
-        { command = "~/.config/sway/scripts/discord-rpc-bridge.sh"; }
       ];
     };
 
@@ -209,9 +208,4 @@
     executable = true;
   };
 
-  # Discord socket bridge
-  home.file.".config/sway/scripts/discord-rpc-bridge.sh" = {
-    source = ./scripts/discord-rpc-bridge.sh;
-    executable = true;
-  };
 }
