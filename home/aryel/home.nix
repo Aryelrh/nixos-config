@@ -36,6 +36,7 @@ in
     pkgs.chawan
     pkgs.lavat
     pkgs.papirus-icon-theme
+    pkgs.papirus-folders
     pkgs.swayimg
     pkgs.mpv
     pkgs.cmus
@@ -137,6 +138,9 @@ in
     #JAVA_HOME = "${pkgs.openjdk21}";
     MAVEN_HOME = "${pkgs.maven}";
     
+    #GTK4 apps theme, like Nautilus
+    GTK_THEME = "Adwaita-dark";
+
     #Intel Iris Xe GPU optimization
     MESA_LOADER_DRIVER_OVERRIDE = "iris";
     MESA_NO_ERROR = "1";
