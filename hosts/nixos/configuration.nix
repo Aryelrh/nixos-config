@@ -201,6 +201,7 @@
     #Useful
     brave
     power-profiles-daemon
+    ntfs3g
 
     #Screenshot
     grim
@@ -237,7 +238,9 @@
       };
     };
   };
-   
+  
+  #External disk automount
+  services.udisks2.enable = true;   
 
   #Polkit (for permissions)
   security.polkit.enable = true;

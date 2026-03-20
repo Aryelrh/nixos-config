@@ -26,20 +26,17 @@ in
     #Wayland essentials
     pkgs.wlr-randr
     pkgs.waybar
-    pkgs.wofi
     pkgs.dunst
     pkgs.autotiling-rs
     
     #Utilities
     pkgs.pavucontrol
     pkgs.fuzzel
-    pkgs.chawan
     pkgs.lavat
-    pkgs.papirus-icon-theme
-    pkgs.papirus-folders
     pkgs.swayimg
     pkgs.mpv
     pkgs.cmus
+    pkgs.vlc
 
     #Apss
     pkgs.vscode
@@ -52,10 +49,10 @@ in
     pkgs.bottom
     pkgs.jetbrains.clion
     pkgs.discordo
-    pkgs.helix
     pkgs.onlyoffice-desktopeditors
     pkgs.mongodb-compass
-
+    pkgs.dolphin-emu
+ 
     #Java
     pkgs.jdk21
     
