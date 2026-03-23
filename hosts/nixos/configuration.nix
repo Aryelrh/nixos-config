@@ -238,6 +238,18 @@
       };
     };
   };
+
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.epson-escpr2 ];
+  };
+
+  # Para impresoras en red (WiFi/Ethernet):
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
   
   #External disk automount
   services.udisks2.enable = true;   

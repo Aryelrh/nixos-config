@@ -1,0 +1,7 @@
+#Shutdown and delete docker0 ip
+sudo ip link set docker0 down
+sudo ip link delete docker0
+
+#Delete additional bridges, (in case that exists)
+sudo ip link delete br-eaabda36e0db
+sudo ip link delete br-fc670951b635

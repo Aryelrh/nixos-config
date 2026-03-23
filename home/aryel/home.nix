@@ -21,6 +21,10 @@ in
     vimAlias = true;
   };
 
+  programs.direnv.enable = true;
+  programs.direnv.enableBashIntegration = true;
+  programs.direnv.nix-direnv.enable = true;
+
   #Install packages
   home.packages = [
     #Wayland essentials
@@ -37,6 +41,7 @@ in
     pkgs.mpv
     pkgs.cmus
     pkgs.vlc
+    pkgs.system-config-printer
 
     #Apss
     pkgs.vscode
