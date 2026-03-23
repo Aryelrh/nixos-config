@@ -89,7 +89,13 @@
   console.keyMap = "us-acentos";
   
   #Docker activation
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    extraOptions = "--iptables=false"; #Avoids Docker to modify iptables
+    daemon.settings = {
+      bridge = "none"; #Docker doesnt create docker0 auto
+    };
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aryel = {
