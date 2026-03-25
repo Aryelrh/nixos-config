@@ -43,6 +43,7 @@ return {
             ["d"] = "delete",
             ["r"] = "rename",
             ["R"] = "set_root",
+            ["H"] = "toggle_hidden",
           },
         },
       })

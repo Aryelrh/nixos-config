@@ -9,3 +9,7 @@ sudo ip link delete br-fc670951b635
 #Useful commands for debugging
 ip rout
 ip addr
+
+#See virtualization.docker segment in configuration.nix to see
+#how was fixed the issue, converting docker invisible to problematic
+#ip's. Ex: UNA wifi portal or connections
