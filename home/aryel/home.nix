@@ -57,6 +57,8 @@ in
     pkgs.onlyoffice-desktopeditors
     pkgs.mongodb-compass
     pkgs.dolphin-emu
+    pkgs.postman
+    pkgs.dbeaver-bin
  
     #Java
     pkgs.jdk21
@@ -161,20 +163,6 @@ in
     };
   };
 
-  #Symlink to real Flatpak socket for Steam, (Rich pressence)
-  systemd.user.tmpfiles.rules = [
-    "L %t/discord-ipc-0 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-0"
-    "L %t/discord-ipc-1 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-1"
-    "L %t/discord-ipc-2 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-2"
-    "L %t/discord-ipc-3 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-3"
-    "L %t/discord-ipc-4 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-4"
-    "L %t/discord-ipc-5 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-5"
-    "L %t/discord-ipc-6 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-6"
-    "L %t/discord-ipc-7 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-7"
-    "L %t/discord-ipc-8 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-8"
-    "L %t/discord-ipc-9 - - - - .flatpak/com.discordapp.Discord/xdg-run/discord-ipc-9"
-  ];
-
   imports = [
     ../../modules/home/sway/default.nix
   ];
@@ -186,7 +174,7 @@ in
     shellAliases = {
       hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
       gc = "sudo nix-collect-garbage -d";
-    };
+   };
   };
 }
 

@@ -13,6 +13,15 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  boot.kernelParams = [
+    "i915.enable_psr=1"        # Panel Self Refresh — big battery win on Intel iGPU
+    "i915.enable_fbc=1"        # Framebuffer compression
+    "i915.enable_dc=1"         # Deep power states for display engine (try 2, fallback to 1 if issues)
+    "nvme.noacpi=1"            # If you have NVMe — prevents ACPI conflicts
+    "pcie_aspm=force"          # Aggressive PCIe power saving
+  ];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -55,7 +64,7 @@
   #Dconf database (required for GNOME apps to store settings)
   programs.dconf.enable = true;
   services.power-profiles-daemon.enable = true;
-
+  
   #PAM: Unlock the keyring when log in
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.greetd.enableGnomeKeyring = true;
@@ -99,6 +108,10 @@
       ];
     };
   };
+
+  programs.xwayland.enable = true;
+  programs.gamescope.enable = true;
+  hardware.steam-hardware.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aryel = {

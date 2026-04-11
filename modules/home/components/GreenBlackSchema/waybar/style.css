@@ -1,0 +1,123 @@
+/* @import "$HOME/.config/colors/colors.css" */
+@import "../colors/colors.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    font-weight: bold;
+    background-color: transparent;
+    border-radius: 5px;
+    min-height: 0;
+}
+
+window,
+tooltip {
+    background-color: @background;
+}
+
+#waybar {
+    background: alpha(@background, 0.6);
+    border-radius: 0px 0px 8px 8px;
+}
+
+#workspaces {
+    margin: 1px 0;
+}
+
+#workspaces button {
+    color: @foreground;
+    border: none;
+    padding: 0 5px;
+}
+
+#workspaces button:hover {
+    color: @foreground;
+    background-color: #1e1e2e;
+    transition: none;
+    border-bottom: 1px solid @green2;
+    padding: 0 8px;
+}
+
+#workspaces button.focused {
+    color: @background;
+    background-color: @green2;
+    border: none;
+    padding: 0 8px;
+    margin: 0 2px;
+}
+
+#workspaces button.active {
+    color: @background;
+    background-color: @green2;
+    border: none;
+    padding: 0 8px;
+    margin: 0 2px;
+}
+
+#workspaces button.urgent {
+    background-color: @green1;
+    padding: 0 8px;
+}
+
+#custom-power,
+#tray,
+#bluetooth,
+#network,
+#battery,
+#pulseaudio,
+#clock,
+#custom-powerprofile,
+#mpris,
+#custom-mic {
+    color: @foreground;
+    margin: 1px 0;
+    padding: 0 10px;
+}
+
+#custom-power:hover,
+#bluetooth:hover,
+#network:hover,
+#battery:hover,
+#pulseaudio:hover,
+#clock:hover,
+#custom-powerprofile:hover,
+#mpris:hover,
+#custom-mic:hover {
+    background-color: alpha(@select, 0.6);
+}
+
+#bluetooth {
+    color: @green;
+}
+
+#network {
+    color: @green;
+}
+
+#battery {
+    color: @green3;
+}
+
+#pulseaudio {
+    color: @green2;
+}
+
+#custom-mic {
+    color: @green2;
+}
+
+#clock {
+    margin-right: 10px;
+    color: #ffffff;
+}
+
+#custom-power {
+    margin-left: 10px;
+    padding: 0px 10px 0 15px;
+}
+
+#custom-powerprofile,
+#mpris {
+    color: #ffffff;
+}
+

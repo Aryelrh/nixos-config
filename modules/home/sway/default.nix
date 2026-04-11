@@ -49,9 +49,9 @@
       colors = {
         focused = {
           background = "#141414";
-          border = "#7ad3be";
-          childBorder = "#7ad3be";
-          indicator = "#7ad3be";
+          border = "#FF6B6B";
+          childBorder = "#FF6B6B";
+          indicator = "#FF6B6B";
           text = "#ffffff";
         };
        # focusedInactive = {
@@ -144,7 +144,7 @@
         { command = "gnome-keyring-daemon --start --components=secrets"; }
         { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }
         { command = "swww-daemon"; }
-        { command = "swww img ~/Pictures/Wallpapers/GreenBlack.jpg"; }
+        { command = "swww img ~/Pictures/Wallpapers/WhiteRed.png"; }
         { command = "/usr/libexec/xdg-desktop-portal -r"; }
         { command = "xdg-desktop-portal-wlr"; }
         { command = "xsettingsd"; }
@@ -164,7 +164,9 @@
       # Gestures for workspaces navigation
       bindgesture swipe:3:right workspace prev
       bindgesture swipe:3:left workspace next
-    '';
+     
+      for_window [title="Worms W.M.D"] floating enable
+   '';
   };
 
   # Ensure environment variables are set
@@ -182,6 +184,15 @@
 
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ./config/swaylock.conf;
+
+  # Symlinks to WhiteBlackSchema configs
+  home.file.".config/kitty".source = ../components/WhiteBlackSchema/kitty;
+  home.file.".config/waybar".source = ../components/WhiteBlackSchema/waybar;
+  home.file.".config/fuzzel".source = ../components/WhiteBlackSchema/fuzzel;
+  home.file.".config/fontconfig".source = ../components/WhiteBlackSchema/fontconfig;
+
+  # Wallpaper symlink
+  home.file."Pictures/Wallpapers/WhiteRed.png".source = ../components/WhiteBlackSchema/WhiteRed.png;
 
   # Swayidle service
   services.swayidle = {
