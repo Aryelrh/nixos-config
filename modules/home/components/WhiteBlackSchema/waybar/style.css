@@ -1,5 +1,5 @@
 /* @import "$HOME/.config/colors/colors.css" */
-@import "../colors/colors.css";
+@import "./colors.css";
 
 * {
     font-family: "JetBrainsMono Nerd Font";

@@ -189,7 +189,6 @@
   home.file.".config/kitty".source = ../components/WhiteBlackSchema/kitty;
   home.file.".config/waybar".source = ../components/WhiteBlackSchema/waybar;
   home.file.".config/fuzzel".source = ../components/WhiteBlackSchema/fuzzel;
-  home.file.".config/fontconfig".source = ../components/WhiteBlackSchema/fontconfig;
 
   # Wallpaper symlink
   home.file."Pictures/Wallpapers/WhiteRed.png".source = ../components/WhiteBlackSchema/WhiteRed.png;
