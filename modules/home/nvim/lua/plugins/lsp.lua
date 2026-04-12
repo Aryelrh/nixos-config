@@ -27,11 +27,9 @@ return {
 				end, opts)
 			end
 
-			local bin = "/etc/profiles/per-user/aryel/bin"
-
 			-- Lua
 			vim.lsp.config("lua_ls", {
-				cmd = { bin .. "/lua-language-server" },
+				cmd = { vim.fn.exepath("lua-language-server") },
 				on_attach = on_attach,
 				settings = {
 					Lua = {
@@ -44,20 +42,20 @@ return {
 
 			-- Python
 			vim.lsp.config("pyright", {
-				cmd = { bin .. "/pyright-langserver", "--stdio" },
+				cmd = { vim.fn.exepath("pyright-langserver"), "--stdio" },
 				on_attach = on_attach,
 			})
 
 			-- Rust
 			vim.lsp.config("rust_analyzer", {
-				cmd = { bin .. "/rust-analyzer" },
+				cmd = { vim.fn.exepath("rust-analyzer") },
 				on_attach = on_attach,
 				settings = { ["rust-analyzer"] = { checkOnSave = { command = "clippy" } } },
 			})
 
 			-- JavaScript / TypeScript
 			vim.lsp.config("ts_ls", {
-				cmd = { bin .. "/typescript-language-server", "--stdio" },
+				cmd = { vim.fn.exepath("typescript-language-server"), "--stdio" },
 				on_attach = on_attach,
 				filetypes = {
 					"javascript",
@@ -79,7 +77,7 @@ return {
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "java",
 				callback = function()
-					local jdtls = bin .. "/jdtls"
+					local jdtls = vim.fn.exepath("jdtls")
 					if vim.fn.executable(jdtls) == 1 then
 						vim.lsp.config("jdtls", {
 							cmd = { jdtls },
@@ -94,14 +92,14 @@ return {
 
 			-- SQL
 			vim.lsp.config("sqls", {
-				cmd = { bin .. "/sqls" },
+				cmd = { vim.fn.exepath("sqls") },
 				on_attach = on_attach,
 				filetypes = { "sql", "mysql" },
 			})
 
 			-- Prisma
 			vim.lsp.config("prismals", {
-				cmd = { bin .. "/prisma-language-server", "--stdio" },
+				cmd = { vim.fn.exepath("prisma-language-server"), "--stdio" },
 				on_attach = on_attach,
 				filetypes = { "prisma" },
 			})

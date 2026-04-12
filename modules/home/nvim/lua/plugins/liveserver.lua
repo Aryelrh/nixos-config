@@ -43,15 +43,14 @@ local function stop()
     vim.notify("Live Server is not running", vim.log.levels.WARN, { title = "Live Server" })
   end
 end
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "html", "css", "javascript" },
+  callback = function(args)
+    local opts = { buffer = args.buf, silent = true }
+    vim.keymap.set("n", "<leader>lu", start, vim.tbl_extend("force", opts, { desc = "Live Server: start and show link" }))
+    vim.keymap.set("n", "<leader>ll", notify_url, vim.tbl_extend("force", opts, { desc = "Live Server: show link" }))
+    vim.keymap.set("n", "<leader>lx", stop, vim.tbl_extend("force", opts, { desc = "Live Server: stop" }))
+  end,
+})
 
-return {
-  {
-    "nvim-lua/plenary.nvim",
-    ft = { "html", "css", "javascript" },
-    keys = {
-      { "<leader>lu", start,      desc = "Live Server: start and show link" },
-      { "<leader>ll", notify_url, desc = "Live Server: show link" },
-      { "<leader>lx", stop,       desc = "Live Server: stop" },
-    },
-  },
-}
+return {}
