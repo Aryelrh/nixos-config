@@ -11,3 +11,6 @@ vim.opt.mouse = "a"
 vim.opt.updatetime = 250
 vim.opt.signcolumn = "yes"
 vim.g.mapleader = " "
+vim.opt.swapfile = false
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
