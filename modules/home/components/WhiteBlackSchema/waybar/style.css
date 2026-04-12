@@ -1,5 +1,5 @@
 /* @import "$HOME/.config/colors/colors.css" */
-@import "./colors.css";
+/* @import "./colors.css"; */
 
 * {
     font-family: "JetBrainsMono Nerd Font";
@@ -12,11 +12,11 @@
 
 window,
 tooltip {
-    background-color: @background;
+    background-color: #04080D;
 }
 
 #waybar {
-    background: alpha(@background, 0.6);
+    background: rgba(4, 8, 13, 0.9);
     border-radius: 0px 0px 8px 8px;
 }
 
@@ -25,37 +25,37 @@ tooltip {
 }
 
 #workspaces button {
-    color: @foreground;
+    color: #D9E8F5;
     border: none;
     padding: 0 5px;
 }
 
 #workspaces button:hover {
-    color: @foreground;
+    color: #D9E8F5;
     background-color: #1a1a1a;
     transition: none;
-    border-bottom: 1px solid @red2;
+    border-bottom: 1px solid #FF4D4D;
     padding: 0 8px;
 }
 
 #workspaces button.focused {
-    color: @background;
-    background-color: @green2;
+    color: #04080D;
+    background-color: #FF6B6B;
     border: none;
     padding: 0 8px;
     margin: 0 2px;
 }
 
 #workspaces button.active {
-    color: @background;
-    background-color: @green2;
+    color: #04080D;
+    background-color: #FF6B6B;
     border: none;
     padding: 0 8px;
     margin: 0 2px;
 }
 
 #workspaces button.urgent {
-    background-color: @green1;
+    background-color: #FF4D4D;
     padding: 0 8px;
 }
 
@@ -69,7 +69,7 @@ tooltip {
 #custom-powerprofile,
 #mpris,
 #custom-mic {
-    color: @foreground;
+    color: #D9E8F5;
     margin: 1px 0;
     padding: 0 10px;
 }
@@ -83,32 +83,32 @@ tooltip {
 #custom-powerprofile:hover,
 #mpris:hover,
 #custom-mic:hover {
-    background-color: alpha(@select, 0.6);
+    background-color: rgba(26, 26, 26, 0.6);
 }
 
 #bluetooth {
-    color: @green;
+    color: #FF6B6B;
 }
 
 #network {
-    color: @green;
+    color: #FF6B6B;
 }
 
 #battery {
-    color: @green3;
+    color: #FF4D4D;
 }
 
 #pulseaudio {
-    color: @green2;
+    color: #FF6B6B;
 }
 
 #custom-mic {
-    color: @green2;
+    color: #FF6B6B;
 }
 
 #clock {
     margin-right: 10px;
-    color: @foreground;
+    color: #D9E8F5;
 }
 
 #custom-power {
@@ -118,6 +118,6 @@ tooltip {
 
 #custom-powerprofile,
 #mpris {
-    color: @foreground;
+    color: #D9E8F5;
 }
 

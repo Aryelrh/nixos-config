@@ -186,36 +186,10 @@
   home.file.".config/swaylock/config".source = ./config/swaylock.conf;
 
   # Symlinks to WhiteBlackSchema configs
-  home.file.".config/kitty".source = ../components/WhiteBlackSchema/kitty;
-  home.file.".config/waybar".source = ../components/WhiteBlackSchema/waybar;
-  home.file.".config/fuzzel".source = ../components/WhiteBlackSchema/fuzzel;
+  xdg.configFile."kitty".source = ../components/WhiteBlackSchema/kitty;
+  xdg.configFile."waybar".source = ../components/WhiteBlackSchema/waybar;
+  xdg.configFile."fuzzel".source = ../components/WhiteBlackSchema/fuzzel;
 
   # Wallpaper symlink
   home.file."Pictures/Wallpapers/WhiteRed.png".source = ../components/WhiteBlackSchema/WhiteRed.png;
-
-  # Swayidle service
-  services.swayidle = {
-    enable = true;
-    events = {
-      "before-sleep" = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
-    };
-    timeouts = [
-      {
-        timeout = 300;
-        command = "${pkgs.swaylock}/bin/swaylock -f -c 1a1a1a";
-      }
-      {
-        timeout = 600;
-        command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
-        resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
-      }
-    ];
-  };
-
-  # Suspend script
-  home.file.".config/sway/scripts/suspend.sh" = {
-    source = ./scripts/suspend.sh;
-    executable = true;
-  };
-
 }

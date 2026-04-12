@@ -99,6 +99,13 @@ return {
 				filetypes = { "sql", "mysql" },
 			})
 
+			-- Prisma
+			vim.lsp.config("prismals", {
+				cmd = { bin .. "/prisma-language-server", "--stdio" },
+				on_attach = on_attach,
+				filetypes = { "prisma" },
+			})
+
 			for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "sqls" }) do
 				vim.lsp.enable(server)
 			end
