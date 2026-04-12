@@ -11,7 +11,7 @@ return {
       configs.setup({
         ensure_installed = {
           "lua", "vim", "vimdoc",
-          "python", "javascript", "typescript", "tsx", "css", "html",
+          "python", "javascript", "typescript", "tsx", "css", "html", "prisma",
           "rust", "java", "json", "yaml", "markdown", "markdown_inline", "latex",
         },
         highlight = {
