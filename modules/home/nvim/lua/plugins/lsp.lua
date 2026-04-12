@@ -104,7 +104,7 @@ return {
 				filetypes = { "prisma" },
 			})
 
-			for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "sqls" }) do
+			for _, server in ipairs({ "lua_ls", "pyright", "rust_analyzer", "ts_ls", "sqls", "prismals" }) do
 				vim.lsp.enable(server)
 			end
 
