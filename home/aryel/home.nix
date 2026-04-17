@@ -165,7 +165,7 @@ in
   };
 
   imports = [
-    ../../modules/home/sway/default.nix
+    ../../modules/home/gnome/default.nix
   ];
 
   #Alias

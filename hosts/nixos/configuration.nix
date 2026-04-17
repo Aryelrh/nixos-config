@@ -174,20 +174,26 @@
   #Portal
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
-    configPackages = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-gnome ];
+    configPackages = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-gnome ];
     config = {
       common.default = "*";
-      sway.default = lib.mkForce [ "wlr" "gtk" ];
       "org.freedesktop.impl.portal.FileChooser".default = "gtk";
     };
   };
 
-  #Sway
-  programs.sway = {
+  #GNOME Desktop Environment
+  services.xserver = {
     enable = true;
-    xwayland = {};
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
   };
+
+  # Exclude some GNOME packages
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    snap
+  ];
 
   #Terminal interface improvement
   programs.starship = {
