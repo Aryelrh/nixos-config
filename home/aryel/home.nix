@@ -96,8 +96,9 @@ in
     pkgs.rust-analyzer
     pkgs.jdt-language-server
     pkgs.nodePackages.vscode-langservers-extracted  # HTML, CSS, JSON LSP
-    pkgs.sqls                                         # SQL LSP
-    
+    pkgs.sqls                                       # SQL LSP
+    pkgs.prisma-language-server
+
     #Neovim formatters
     pkgs.stylua                  # Lua formatter
     pkgs.nodePackages.prettier      # JavaScript/TypeScript formatter

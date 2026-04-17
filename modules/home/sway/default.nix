@@ -14,6 +14,7 @@
           xkb_variant = "intl";
         };
         "type:touchpad" = {
+          tap = "enabled";
           natural_scroll = "enabled";
           scroll_factor = "1";
         };

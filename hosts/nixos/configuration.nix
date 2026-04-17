@@ -56,7 +56,13 @@
     script = ''
       flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     '';
-  };   
+  };
+
+  # Discord Rich Presence for Flatpak apps (Nuclear, etc.)
+  system.activationScripts.flatpak-discord-rpc = ''
+    ${pkgs.flatpak}/bin/flatpak override --filesystem=xdg-run/discord-ipc-* || true
+    ${pkgs.flatpak}/bin/flatpak override --filesystem=xdg-run/app/com.discordapp.Discord:create || true
+  '';
 
   #Secret Service (passwords)
   services.gnome.gnome-keyring.enable = true;
