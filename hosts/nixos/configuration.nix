@@ -183,16 +183,17 @@
   };
 
   #GNOME Desktop Environment
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
+  services.xserver.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
+  services.gnome.core-apps.enable = false;
+  services.gnome.core-developer-tools.enable = false;
+  services.gnome.games.enable = false;
 
   # Exclude some GNOME packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
-    snap
+    gnome-user-docs
   ];
 
   #Terminal interface improvement
@@ -252,8 +253,6 @@
   ];
   
   environment.sessionVariables = {
-    #GSettings for GNOME apps (MongoDB Compass, etc)
-    XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share:${pkgs.glib}/share:/usr/local/share:/usr/share";
     #Electron apps should use XWayland (more stable in Wayland)
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
   };
