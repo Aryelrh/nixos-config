@@ -175,6 +175,9 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-38.8.4"
+  ];
 
   #Seatd
   services.seatd.enable = true;

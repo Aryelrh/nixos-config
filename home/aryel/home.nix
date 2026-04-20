@@ -50,7 +50,7 @@ in
     pkgs.maven
     pkgs.obsidian
     pkgs.ani-cli
-    pkgs.swww
+    pkgs.awww
     pkgs.bottom
     pkgs.jetbrains.clion
     pkgs.discordo
@@ -90,19 +90,19 @@ in
     pkgs.ripgrep
     pkgs.fd
     pkgs.nodejs
-    pkgs.nodePackages.typescript-language-server
+    pkgs.typescript-language-server
     pkgs.lua-language-server
     pkgs.pyright
     pkgs.clang-tools
     pkgs.rust-analyzer
     pkgs.jdt-language-server
-    pkgs.nodePackages.vscode-langservers-extracted  # HTML, CSS, JSON LSP
+    pkgs.vscode-langservers-extracted  # HTML, CSS, JSON LSP
     pkgs.sqls                                       # SQL LSP
     pkgs.prisma-language-server
 
     #Neovim formatters
     pkgs.stylua                  # Lua formatter
-    pkgs.nodePackages.prettier      # JavaScript/TypeScript formatter
+    pkgs.prettier      # JavaScript/TypeScript formatter
     pkgs.black                   # Python formatter
     pkgs.isort                   # Python import sorter
     pkgs.google-java-format      # Java formatter
