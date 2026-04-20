@@ -7,6 +7,7 @@
   # GNOME Extensions
   home.packages = with pkgs; [
     (gnomeExtensions.appindicator)
+    (gnomeExtensions.blur-my-shell)
     (gnomeExtensions.caffeine)
   ];
 
@@ -77,6 +78,7 @@
       disabled-extensions = [];
       enabled-extensions = [
         "appindicatorsupport@rgcjonas.gmail.com"
+        "blur-my-shell@aunetx.gmail.com"
         "caffeine@patapon.info"
       ];
 

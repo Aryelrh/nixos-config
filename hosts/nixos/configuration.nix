@@ -58,6 +58,14 @@
     '';
   };
 
+  #Lazy Spotify flake consume
+  nixpkgs.overlays = [
+    (final: prev: {
+      lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
+    })
+  ];
+
+
   # Discord Rich Presence for Flatpak apps (Nuclear, etc.)
   system.activationScripts.flatpak-discord-rpc = ''
     ${pkgs.flatpak}/bin/flatpak override --filesystem=xdg-run/discord-ipc-* || true
@@ -228,6 +236,7 @@
     unzip
     unrar
     p7zip
+    lazyspotify
 
     #Keyring
     gnome-keyring

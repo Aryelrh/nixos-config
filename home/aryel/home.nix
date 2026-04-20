@@ -59,6 +59,7 @@ in
     pkgs.dolphin-emu
     pkgs.postman
     pkgs.dbeaver-bin
+    pkgs.prismlauncher
  
     #Java
     pkgs.jdk21
@@ -175,6 +176,7 @@ in
     shellAliases = {
       hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
       gc = "sudo nix-collect-garbage -d";
+      spotui = "cd ~/LazySpotify/lazyspotify && nix develop --command make";
    };
   };
 }
