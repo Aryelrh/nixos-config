@@ -201,6 +201,9 @@
   services.gnome.core-developer-tools.enable = false;
   services.gnome.games.enable = false;
 
+  # Ollama to run local IA models
+  services.ollama.enable = true;
+
   # Exclude some GNOME packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour

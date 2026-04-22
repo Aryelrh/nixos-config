@@ -42,6 +42,7 @@ in
     pkgs.cmus
     pkgs.vlc
     pkgs.system-config-printer
+    pkgs.oterm
 
     #Apss
     pkgs.vscode
