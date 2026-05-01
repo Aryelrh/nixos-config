@@ -6,6 +6,10 @@ let
     path = ../../modules/home/nvim;
     name = "nvim-config";
   };
+  kakouneConfigPath = builtins.path {
+    path = ../../modules/home/kakoune;
+    name = "kakoune-config";
+  };
 in
 {
   #General config
@@ -43,6 +47,7 @@ in
     pkgs.vlc
     pkgs.system-config-printer
     pkgs.oterm
+    pkgs.kakoune
 
     #Apss
     pkgs.vscode
@@ -155,6 +160,7 @@ in
   
   #Declarative symlinks for Lua config
   home.file.".config/nvim".source = nvimConfigPath;
+  home.file.".config/kak".source = kakouneConfigPath;
 
   #Zathura PDF viewer (used by vimtex for forward/inverse search via SyncTeX)
   programs.zathura = {

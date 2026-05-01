@@ -1,0 +1,223 @@
+# Kakoune Configuration
+# Equivalent to Neovim setup with rose-pine theme and LSP support
+
+# ============================================================================
+# General Configuration
+# ============================================================================
+
+# Set leader key
+map global normal <space> ,
+
+# Enable line numbers
+add-highlighter global/ number-lines -hlcursor
+
+# ============================================================================
+# Editor Options
+# ============================================================================
+
+# Indentation settings
+set-option global tabstop 2
+set-option global indentwidth 2
+set-option global softtabstop 0
+
+# UI settings
+set-option global scrolloff 5,5
+set-option global ui_options ncurses_assistant=clippy ncurses_enable_mouse=true
+
+# Disable status bar colors (remove yellow messages)
+set-option global modeline_format ''
+
+# Search settings
+set-option global searchively true
+
+# ============================================================================
+# Load Configuration Files
+# ============================================================================
+
+# Source color scheme
+try %{
+    source "%val{config}/colors/rose-pine.kak"
+}
+
+# Source UI configuration
+try %{
+    source "%val{config}/rc/ui.kak"
+}
+
+# Source LSP configuration
+try %{
+    source "%val{config}/rc/lsp.kak"
+}
+
+# Source extended keymaps
+try %{
+    source "%val{config}/rc/mappings.kak"
+}
+
+# Source formatting configuration
+try %{
+    source "%val{config}/rc/formatting.kak"
+}
+
+# ============================================================================
+# Keymaps - General
+# ============================================================================
+
+# Quit
+map global normal <space>q ':quit<ret>' -docstring 'Quit'
+
+# Close buffer
+map global normal <space>x ':delete-buffer<ret>' -docstring 'Close buffer'
+map global normal <space>X ':delete-buffer!<ret>' -docstring 'Force close buffer'
+
+# Standard editor shortcuts
+map global normal <C-a> 'ggvG' -docstring 'Select all'
+map global normal <C-z> 'u' -docstring 'Undo'
+map global normal <C-y> '<a-u>' -docstring 'Redo'
+
+# Copy/Paste with system clipboard
+map global normal <C-c> '|xclip -selection clipboard<ret>' -docstring 'Copy to clipboard'
+map global normal <C-v> '!xclip -selection clipboard -o<ret>' -docstring 'Paste from clipboard'
+
+# Delete line
+map global normal <space>d 'x' -docstring 'Delete current line'
+
+# ============================================================================
+# Keymaps - Buffer Navigation
+# ============================================================================
+
+# Buffer switching
+map global normal <space>bn ':buffer-next<ret>' -docstring 'Next buffer'
+map global normal <space>bp ':buffer-previous<ret>' -docstring 'Previous buffer'
+
+# ============================================================================
+# LSP Configuration
+# ============================================================================
+
+# Load LSP support
+eval %sh{
+    command -v kak-lsp >/dev/null 2>&1 && echo "
+        set-option global lsp_cmd 'kak-lsp -s %val{session}'
+        set-option global lsp_diagnostic_line_error_sign '!'
+        set-option global lsp_diagnostic_line_warning_sign '?'
+    "
+}
+
+# LSP Keymaps
+map global normal gd ':lsp-definition<ret>' -docstring 'Go to definition'
+map global normal gD ':lsp-declaration<ret>' -docstring 'Go to declaration'
+map global normal gi ':lsp-implementation<ret>' -docstring 'Go to implementation'
+map global normal gr ':lsp-references<ret>' -docstring 'Show references'
+map global normal K ':lsp-hover<ret>' -docstring 'Hover'
+map global normal <space>rn ':lsp-rename-prompt<ret>' -docstring 'Rename'
+map global normal <space>ca ':lsp-code-action<ret>' -docstring 'Code action'
+map global normal <space>f ':lsp-format<ret>' -docstring 'Format buffer'
+
+# Diagnostic navigation
+map global normal '[d' ':lsp-prev-diagnostic<ret>' -docstring 'Previous diagnostic'
+map global normal ']d' ':lsp-next-diagnostic<ret>' -docstring 'Next diagnostic'
+map global normal <space>e ':lsp-diagnostic-lines-info<ret>' -docstring 'Show diagnostics'
+
+# ============================================================================
+# Formatting
+# ============================================================================
+
+# Auto format on save
+hook global BufWritePre .* %{
+    try %{ execute-keys ':lsp-format<ret>' }
+}
+
+# ============================================================================
+# File Type Specific Settings
+# ============================================================================
+
+# Lua
+hook global WinSetOption filetype=lua %{
+    set-option buffer formatcmd 'stylua -'
+    set-option buffer lsp_server_configuration lua-language-server=%{
+        {settings:
+            {Lua: {runtime: {version: "LuaJIT"}
+                   diagnostics: {globals: ["vim"]}
+                   workspace: {checkThirdParty: false}}}
+        }
+    }
+}
+
+# Python
+hook global WinSetOption filetype=python %{
+    set-option buffer formatcmd 'black -'
+}
+
+# JavaScript/TypeScript
+hook global WinSetOption filetype=javascript %{
+    set-option buffer formatcmd 'prettier --parser babel'
+}
+
+hook global WinSetOption filetype=typescript %{
+    set-option buffer formatcmd 'prettier --parser typescript'
+}
+
+# Rust
+hook global WinSetOption filetype=rust %{
+    set-option buffer formatcmd 'rustfmt'
+}
+
+# Java
+hook global WinSetOption filetype=java %{
+    set-option buffer formatcmd 'google-java-format -'
+}
+
+# ============================================================================
+# Auto Pairs
+# ============================================================================
+
+# Auto close pairs
+hook global InsertChar '[\[\{\(]' %{
+    execute-keys 'h<a-;>:try %{ execute-keys -draft "a<close-bracket>" } catch %{ }; h'
+}
+
+# ============================================================================
+# Search & Replace (similar to telescope)
+# ============================================================================
+
+map global normal <space>ff ':terminal fd --hidden<ret>'  -docstring 'Find files'
+map global normal <space>fg ':fzf<ret>' -docstring 'Live grep'
+map global normal <space>fb ':buffer ' -docstring 'Switch buffer'
+
+# ============================================================================
+# Highlighting & Indentation
+# ============================================================================
+
+# Treesitter-like syntax highlighting (uses native Kakoune)
+set-option global ModelineIgnoredOptions ''
+
+# Indentation guides
+try %{
+    add-highlighter global/ indent guides
+}
+
+# Number line highlighting
+add-highlighter global/ line %val{cursor_line} LineNumberCursor
+
+# ============================================================================
+# Status Bar - Remove colored messages
+# ============================================================================
+
+# Disable info messages color
+set-option global infobox bottom
+set-face window information Default
+
+# ============================================================================
+# Final configurations
+# ============================================================================
+
+# Auto completion
+set-option global autocomplete 'off'
+
+# Word completion
+map global insert <tab> '<a-;>:try %{ complete }catch %{ }<ret>'
+
+# Restore last position when opening a file
+hook global BufOpenFile .* %{
+    try %{ exec 'gg' }
+}
