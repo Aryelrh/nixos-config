@@ -237,7 +237,6 @@
     git
     wget
     fastfetch
-    brightnessctl
     acpi
     unzip
     unrar
@@ -253,18 +252,8 @@
     power-profiles-daemon
     ntfs3g
 
-    #Screenshot
-    grim
-    slurp
-    wl-clipboard
-    grimblast
-
     #File manager
     nautilus
-    
-    #GSettings schemas (required by MongoDB Compass and GNOME apps)
-    gsettings-desktop-schemas
-    glib
   ];
   
   environment.sessionVariables = {

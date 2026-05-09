@@ -29,20 +29,16 @@ in
   home.packages = [
     #Wayland essentials
     pkgs.wlr-randr
-    pkgs.waybar
     pkgs.dunst
-    pkgs.autotiling-rs
     
     #Utilities
     pkgs.pavucontrol
-    pkgs.fuzzel
     pkgs.lavat
     pkgs.swayimg
     pkgs.mpv
     pkgs.cmus
     pkgs.vlc
     pkgs.system-config-printer
-    pkgs.oterm
 
     #Apss
     pkgs.vscode
@@ -50,66 +46,13 @@ in
     pkgs.github-desktop
     pkgs.maven
     pkgs.obsidian
-    pkgs.ani-cli
-    pkgs.awww
     pkgs.bottom
     pkgs.jetbrains.clion
-    pkgs.discordo
     pkgs.onlyoffice-desktopeditors
     pkgs.mongodb-compass
-    pkgs.dolphin-emu
     pkgs.postman
     pkgs.dbeaver-bin
     pkgs.prismlauncher
- 
-    #Java
-    pkgs.jdk21
-    
-    #R Tooling
-    #RStudio with software rendering
-    (pkgs.writeShellScriptBin "rstudio" ''
-      export QTWEBENGINE_CHROMIUM_FLAGS="--disable-gpu"
-      exec ${pkgs.rstudio}/bin/rstudio "$@"
-    '')
-    pkgs.pandoc
-
-    #Rust
-    pkgs.rustc
-    pkgs.cargo
-    pkgs.rustfmt
-    pkgs.clippy
-
-    #Development tool 
-    pkgs.gcc           
-    pkgs.pkg-config 
-    pkgs.cmake
-
-    #Python
-    pkgs.python3
-
-    #Neovim setup (LSP, search, etc...)
-    pkgs.ripgrep
-    pkgs.fd
-    pkgs.nodejs
-    pkgs.typescript-language-server
-    pkgs.lua-language-server
-    pkgs.pyright
-    pkgs.clang-tools
-    pkgs.rust-analyzer
-    pkgs.jdt-language-server
-    pkgs.vscode-langservers-extracted  # HTML, CSS, JSON LSP
-    pkgs.sqls                                       # SQL LSP
-    pkgs.prisma-language-server
-
-    #Neovim formatters
-    pkgs.stylua                  # Lua formatter
-    pkgs.prettier      # JavaScript/TypeScript formatter
-    pkgs.black                   # Python formatter
-    pkgs.isort                   # Python import sorter
-    pkgs.google-java-format      # Java formatter
-
-    #LaTeX PDF Viewer
-    pkgs.zathura                           # PDF viewer with SyncTeX (forward/inverse search)                             # required by latexmk
     
     #Wayland file picker and polkit agent
     pkgs.polkit_gnome
@@ -155,16 +98,6 @@ in
   
   #Declarative symlinks for Lua config
   home.file.".config/nvim".source = nvimConfigPath;
-
-  #Zathura PDF viewer (used by vimtex for forward/inverse search via SyncTeX)
-  programs.zathura = {
-    enable = true;
-    options = {
-      synctex             = true;   # vimtex passes --synctex-editor-cmd automatically on forward search
-      selection-clipboard = "clipboard";
-      recolor             = false;
-    };
-  };
 
   imports = [
     ../../modules/home/gnome/default.nix

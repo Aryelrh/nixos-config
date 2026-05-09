@@ -19,14 +19,14 @@
       icon-theme = "Papirus-Dark";
       cursor-theme = "Adwaita";
       cursor-size = 24;
-      font-name = "Noto Sans 11";
+      font-name = "JetBrains Mono 11";
       monospace-font-name = "JetBrains Mono 11";
       font-antialiasing = "rgba";
       font-hinting = "full";
     };
 
     "org/gnome/desktop/wm/preferences" = {
-      titlebar-font = "Noto Sans Bold 11";
+      titlebar-font = "JetBrains Mono 11";
       action-middle-click-titlebar = "minimize";
       action-right-click-titlebar = "menu";
       focus-mode = "sloppy";
