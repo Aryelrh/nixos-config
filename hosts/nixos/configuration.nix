@@ -127,11 +127,19 @@
   programs.gamescope.enable = true;
   hardware.steam-hardware.enable = true;
 
+  # Switch
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0955", ATTR{idProduct}=="7321", MODE="0666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", MODE="0666", GROUP="plugdev"
+  '';
+
+  users.groups.plugdev = {};
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aryel = {
     isNormalUser = true;
     description = "aryel";
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "docker" "plugdev" ];
     packages = with pkgs; [];
   };
 
@@ -222,6 +230,8 @@
     };
   };
 
+  # Zed editor dynamic linkin for generic programs
+  programs.nix-ld.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -251,6 +261,7 @@
     brave
     power-profiles-daemon
     ntfs3g
+    exfat
 
     #File manager
     nautilus
@@ -289,10 +300,13 @@
   };
   
   #External disk automount
+  services.gvfs.enable = true;
   services.udisks2.enable = true;   
+  services.devmon.enable = true;
 
   #Polkit (for permissions)
   security.polkit.enable = true;
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

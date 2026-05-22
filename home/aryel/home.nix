@@ -42,6 +42,7 @@ in
 
     #Apss
     pkgs.vscode
+    pkgs.zed-editor
     pkgs.spotify
     pkgs.github-desktop
     pkgs.maven
@@ -53,6 +54,8 @@ in
     pkgs.postman
     pkgs.dbeaver-bin
     pkgs.prismlauncher
+
+    pkgs.nodejs_22
     
     #Wayland file picker and polkit agent
     pkgs.polkit_gnome
