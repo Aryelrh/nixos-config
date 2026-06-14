@@ -48,6 +48,9 @@
   #Clean the disk deleting duplicates
   nix.settings.auto-optimise-store = true;
 
+  #Home Manager: allow backing up existing files on activation
+  home-manager.backupFileExtension = "bak";
+
   #Flatpak, for Sober
   services.flatpak.enable = true;
   systemd.services.flatpak-repo = {
@@ -71,6 +74,9 @@
     ${pkgs.flatpak}/bin/flatpak override --filesystem=xdg-run/discord-ipc-* || true
     ${pkgs.flatpak}/bin/flatpak override --filesystem=xdg-run/app/com.discordapp.Discord:create || true
   '';
+
+  # Soporte 32-bit (indispensable para Wine/WC3)
+  hardware.graphics.enable32Bit = true;
 
   #Secret Service (passwords)
   services.gnome.gnome-keyring.enable = true;
@@ -193,12 +199,8 @@
   #Portal
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-gnome ];
-    configPackages = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-gnome ];
-    config = {
-      common.default = "*";
-      "org.freedesktop.impl.portal.FileChooser".default = "gtk";
-    };
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    config.common.default = "gnome";
   };
 
   #GNOME Desktop Environment
@@ -265,6 +267,9 @@
 
     #File manager
     nautilus
+
+    gsettings-desktop-schemas
+    gtk3
   ];
   
   environment.sessionVariables = {

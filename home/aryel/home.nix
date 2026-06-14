@@ -24,6 +24,56 @@ in
   programs.direnv.enable = true;
   programs.direnv.enableBashIntegration = true;
   programs.direnv.nix-direnv.enable = true;
+  
+  # Zed editor
+  programs.zed-editor = {
+    enable = true;
+    enableMcpIntegration = true;
+    userSettings = {
+      auto_save = "on_focus_change";
+      theme = {
+        mode = "system";
+        light = "Min Theme";
+        dark = "Min Theme";
+      };
+    };
+    extensions = [
+      "github-copilot"
+      "claude-acp"
+      "gemini"
+      "qwen-code"
+      "java"
+      "dockerfile"
+      "sql"
+      "nix"
+      "prisma"
+      "docker-compose"
+      "opencode"
+      "ini"
+      "pylsp"
+      "xml"
+      "min-theme"
+      "codebook"
+      "colored-zed-icons-theme"
+    ];
+    extraPackages = with pkgs; [
+      nixd
+    ];
+  };
+
+  programs.vscode = {
+    enable = true;
+    profiles.default.userSettings = {
+      "terminal.integrated.defaultProfile.linux" = "bash";
+      "terminal.integrated.profiles.linux" = {
+        bash = {
+          path = "/etc/profiles/per-user/aryel/bin/bash";
+        };
+      };
+      "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
+    };
+  };
+
 
   #Install packages
   home.packages = [
@@ -42,7 +92,6 @@ in
 
     #Apss
     pkgs.vscode
-    pkgs.zed-editor
     pkgs.spotify
     pkgs.github-desktop
     pkgs.maven
@@ -64,6 +113,7 @@ in
     pkgs.gsettings-desktop-schemas
     pkgs.glib
   ];
+
   home.pointerCursor = {
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
