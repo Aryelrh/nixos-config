@@ -203,7 +203,7 @@ in
     enable = true;
 
     shellAliases = {
-      hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
+      hm = "cd ~/nixos-config && sudo nixos-rebuild switch --impure --flake .#nixos";
       gc = "sudo nix-collect-garbage -d";
       spotui = "cd ~/LazySpotify/lazyspotify && nix develop --command make";
    };

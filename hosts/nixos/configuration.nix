@@ -1,27 +1,25 @@
 #===============================================================================
 # NixOS — Machine Dispatcher
 #
-# Automatically detects the current hardware and imports the matching
-# machine-specific configuration.
+# Automatically detects the current machine by hostname and imports the
+# matching configuration.
 #
 # Supported machines:
-#   - ThinkBook  → ./thinkbook.nix    (Lenovo ThinkBook, laptop actual)
-#   - MacBook    → ./macbook.nix      (MacBook Pro 2019, Intel T2)
+#   hostname | config                     | device
+#   ---------+----------------------------+-------------------------------
+#   nixos    | ./thinkbook.nix            | Lenovo ThinkBook (laptop actual)
+#   macbook  | ./macbook.nix              | MacBook Pro 2019 (Intel T2)
 #===============================================================================
 
 { config, pkgs, lib, ... }:
 
 let
-  #--------------------------------------------------------------
-  # Detect machine via DMI product name
-  #--------------------------------------------------------------
-  productName = builtins.readFile "/sys/class/dmi/id/product_name";
+  currentHost = lib.trim (builtins.readFile "/etc/hostname");
 in
 {
   imports = [
-    if lib.hasPrefix "ThinkBook" productName then ./thinkbook.nix
-    else if lib.hasPrefix "MacBook" productName then ./macbook.nix
-    else
-      builtins.abort "Unsupported machine: ${productName}"
+    (if currentHost == "nixos" then ./thinkbook.nix
+     else if currentHost == "macbook" then ./macbook.nix
+     else builtins.abort "Unknown hostname '${currentHost}' — add it to hosts/nixos/configuration.nix")
   ];
 }
