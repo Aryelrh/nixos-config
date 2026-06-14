@@ -1,31 +1,47 @@
+#===============================================================================
+# HOME MANAGER — Aryel's User Configuration
+#===============================================================================
+
 { pkgs, inputs, ... }:
 
 let
-  #Relative path to absolute path
   nvimConfigPath = builtins.path {
     path = ../../modules/home/nvim;
     name = "nvim-config";
   };
 in
 {
-  #General config
+  #=============================================================================
+  # GENERAL
+  #=============================================================================
+
   home.stateVersion = "26.05";
   programs.home-manager.enable = true;
   home.username = "aryel";
   home.homeDirectory = "/home/aryel";
-  
-  #Enable Neovim complete module (to avoid errors)
+
+  #=============================================================================
+  # NEOVIM
+  #=============================================================================
+
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
   };
 
+  #=============================================================================
+  # DIRENV
+  #=============================================================================
+
   programs.direnv.enable = true;
   programs.direnv.enableBashIntegration = true;
   programs.direnv.nix-direnv.enable = true;
-  
-  # Zed editor
+
+  #=============================================================================
+  # ZED EDITOR
+  #=============================================================================
+
   programs.zed-editor = {
     enable = true;
     enableMcpIntegration = true;
@@ -61,6 +77,10 @@ in
     ];
   };
 
+  #=============================================================================
+  # VSCODE
+  #=============================================================================
+
   programs.vscode = {
     enable = true;
     profiles.default.userSettings = {
@@ -74,14 +94,20 @@ in
     };
   };
 
+  #=============================================================================
+  # USER PACKAGES
+  #=============================================================================
 
-  #Install packages
   home.packages = [
-    #Wayland essentials
+    #------------------
+    # Wayland
+    #------------------
     pkgs.wlr-randr
     pkgs.dunst
-    
-    #Utilities
+
+    #------------------
+    # Utilities
+    #------------------
     pkgs.pavucontrol
     pkgs.lavat
     pkgs.swayimg
@@ -90,7 +116,9 @@ in
     pkgs.vlc
     pkgs.system-config-printer
 
-    #Apss
+    #------------------
+    # Apps
+    #------------------
     pkgs.vscode
     pkgs.spotify
     pkgs.github-desktop
@@ -105,22 +133,29 @@ in
     pkgs.prismlauncher
 
     pkgs.nodejs_22
-    
-    #Wayland file picker and polkit agent
+
+    #------------------
+    # Wayland & GTK
+    #------------------
     pkgs.polkit_gnome
-    
-    #GSettings schemas (required by MongoDB Compass and other GNOME apps)
     pkgs.gsettings-desktop-schemas
     pkgs.glib
   ];
+
+  #=============================================================================
+  # CURSOR
+  #=============================================================================
 
   home.pointerCursor = {
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
     size = 24;
-  };   
+  };
 
-  #GTK theme
+  #=============================================================================
+  # GTK THEME
+  #=============================================================================
+
   gtk = {
     enable = true;
 
@@ -135,31 +170,38 @@ in
     };
   };
 
-  #Path variables
-  home.sessionVariables = {
-    #Java declaration also does this
-    #JAVA_HOME = "${pkgs.openjdk21}";
-    MAVEN_HOME = "${pkgs.maven}";
-    
-    #GTK4 apps theme, like Nautilus
-    GTK_THEME = "Adwaita-dark";
+  #=============================================================================
+  # SESSION VARIABLES
+  #=============================================================================
 
-    #Intel Iris Xe GPU optimization
+  home.sessionVariables = {
+    MAVEN_HOME = "${pkgs.maven}";
+    GTK_THEME = "Adwaita-dark";
     MESA_LOADER_DRIVER_OVERRIDE = "iris";
     MESA_NO_ERROR = "1";
   };
-  
-  #Declarative symlinks for Lua config
+
+  #=============================================================================
+  # SYMLINKS
+  #=============================================================================
+
   home.file.".config/nvim".source = nvimConfigPath;
+
+  #=============================================================================
+  # IMPORTS
+  #=============================================================================
 
   imports = [
     ../../modules/home/gnome/default.nix
   ];
 
-  #Alias
+  #=============================================================================
+  # ALIASES
+  #=============================================================================
+
   programs.bash = {
     enable = true;
-  
+
     shellAliases = {
       hm = "cd ~/nixos-config && sudo nixos-rebuild switch --flake .#nixos";
       gc = "sudo nix-collect-garbage -d";
@@ -167,4 +209,3 @@ in
    };
   };
 }
-
