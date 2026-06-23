@@ -236,6 +236,20 @@
     "vm.compact_memory" = 1;
     "vm.compaction_proactiveness" = 80;
   };
+  
+  #=============================================================================
+  # Terminal interface improvement
+  #=============================================================================
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = false;
+      character = {
+        success_symbol = "[➜](bold green)";
+        error_symbol = "[➜](bold red)";
+      };
+    };
+  };
 
   #=============================================================================
   # UNFREE PACKAGES
