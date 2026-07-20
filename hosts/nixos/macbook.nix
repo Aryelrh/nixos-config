@@ -83,7 +83,7 @@
     (final: prev: {
       lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
       dynamic-workspaces = prev.callPackage ../../pkgs/dynamic-workspaces.nix {};
-      b00merang-windows-7 = prev.callPackage ../../pkgs/b00merang-windows-7/default.nix {};
+      mac-os-9-platinum = prev.callPackage ../../pkgs/mac-os-9-platinum/default.nix {};
     })
   ];
 
@@ -254,12 +254,12 @@
   services.xserver.displayManager.lightdm.greeters.gtk = {
     enable = true;
     theme = {
-      name = "Windows-7";
-      package = pkgs.b00merang-windows-7;
+      name = "Mac-OS-9-Platinum";
+      package = pkgs.mac-os-9-platinum;
     };
     iconTheme = {
-      name = "Windows-10";
-      package = pkgs.windows10-icons;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
     cursorTheme = {
       name = "Adwaita";
@@ -280,9 +280,9 @@
     '';
   };
 
-  # XFCE compose key (AltGr)
+  # XFCE keyboard — US International + compose key (AltGr)
   services.xserver.desktopManager.xfce.extraSessionCommands = ''
-    setxkbmap -option compose:ralt
+    setxkbmap us intl -option compose:ralt
   '';
 
   #=============================================================================

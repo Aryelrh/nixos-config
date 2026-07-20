@@ -159,14 +159,9 @@ in
   gtk = {
     enable = true;
 
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+    font = {
+      name = "JetBrains Mono";
+      size = 11;
     };
   };
 
@@ -176,7 +171,6 @@ in
 
   home.sessionVariables = {
     MAVEN_HOME = "${pkgs.maven}";
-    GTK_THEME = "Adwaita-dark";
     MESA_LOADER_DRIVER_OVERRIDE = "iris";
     MESA_NO_ERROR = "1";
   };

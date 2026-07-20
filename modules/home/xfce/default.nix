@@ -20,11 +20,12 @@
     mousepad
     xfce4-session
 
-    # Windows 7 theme
-    pkgs.b00merang-windows-7
+    # Mac OS 9 Platinum theme
+    pkgs.mac-os-9-platinum
 
-    # Windows 10 icons (closest to Win7)
-    windows10-icons
+    # Icons
+    papirus-icon-theme
+
   ];
 
   # XFCE configuration via xfconf XML files
@@ -35,47 +36,24 @@
         <property name="general" type="empty">
           <property name="activate_action" type="string" value="bring"/>
           <property name="borderless_maximize" type="bool" value="true"/>
-          <property name="box_move" type="bool" value="false"/>
-          <property name="box_resize" type="bool" value="false"/>
           <property name="button_layout" type="string" value="O|SHMC"/>
-          <property name="button_offset" type="int" value="0"/>
           <property name="click_raise" type="bool" value="true"/>
           <property name="compositor_active" type="bool" value="true"/>
           <property name="compositor_refresh_rate" type="string" value="auto"/>
           <property name="compositor_sync" type="string" value="fifo"/>
-          <property name="cycle_apps_only" type="bool" value="false"/>
-          <property name="cycle_draw_frame" type="bool" value="true"/>
-          <property name="cycle_hidden" type="bool" value="true"/>
-          <property name="cycle_minimum" type="bool" value="true"/>
-          <property name="cycle_preview" type="bool" value="true"/>
-          <property name="cycle_tabwin_mode" type="int" value="0"/>
-          <property name="cycle_workspaces" type="bool" value="false"/>
           <property name="double_click_action" type="string" value="maximize"/>
           <property name="double_click_distance" type="int" value="8"/>
-          <property name="double_click_time" type="int" value="250"/>
           <property name="easy_click" type="string" value="Super"/>
           <property name="focus_delay" type="int" value="250"/>
-          <property name="focus_hint" type="bool" value="true"/>
           <property name="focus_new" type="bool" value="true"/>
-          <property name="gap_height" type="int" value="20"/>
-          <property name="gap_width" type="int" value="20"/>
-          <property name="horiz_scroll_opacity" type="bool" value="false"/>
+          <property name="gap_height" type="int" value="5"/>
+          <property name="gap_width" type="int" value="5"/>
           <property name="inactive_opacity" type="int" value="100"/>
-          <property name="join_workspaces" type="bool" value="true"/>
-          <property name="limit_window_size" type="string" value="0,16,1500,1500"/>
-          <property name="max_override_size" type="int" value="0"/>
-          <property name="miniaturize_action" type="string" value="shade"/>
           <property name="mousewheel_rollup" type="bool" value="true"/>
-          <property name="move_opacity" type="int" value="100"/>
           <property name="placement_mode" type="string" value="center"/>
           <property name="placement_ratio" type="int" value="100"/>
-          <property name="popup_opacity" type="int" value="100"/>
           <property name="prevent_focus_stealing" type="bool" value="true"/>
-          <property name="raise_delay" type="int" value="250"/>
           <property name="raise_on_focus" type="bool" value="true"/>
-          <property name="raise_on_hover" type="bool" value="false"/>
-          <property name="repeat_inactive" type="bool" value="true"/>
-          <property name="resize_opacity" type="int" value="100"/>
           <property name="scroll_workspaces" type="bool" value="true"/>
           <property name="shadow_delta_height" type="int" value="2"/>
           <property name="shadow_delta_width" type="int" value="2"/>
@@ -83,28 +61,15 @@
           <property name="shadow_delta_y" type="int" value="-2"/>
           <property name="shadow_opacity" type="int" value="50"/>
           <property name="show_app_icon" type="bool" value="true"/>
-          <property name="show_dock_shadow" type="bool" value="true"/>
           <property name="show_frame_shadow" type="bool" value="true"/>
-          <property name="show_popup_shadow" type="bool" value="false"/>
-          <property name="snap_resist" type="bool" value="false"/>
           <property name="snap_to_border" type="bool" value="true"/>
           <property name="snap_to_windows" type="bool" value="true"/>
           <property name="snap_width" type="int" value="10"/>
-          <property name="sync_workspaces" type="bool" value="true"/>
-          <property name="theme" type="string" value="Windows-7"/>
-          <property name="tile_on_move" type="bool" value="true"/>
+          <property name="theme" type="string" value="Mac-OS-9-Platinum"/>
           <property name="title_alignment" type="string" value="center"/>
           <property name="title_font" type="string" value="JetBrains Mono 11"/>
-          <property name="title_horizontal_offset" type="int" value="0"/>
-          <property name="title_shadow_active" type="string" value="false"/>
-          <property name="title_shadow_inactive" type="string" value="false"/>
-          <property name="title_vertical_offset_active" type="int" value="0"/>
-          <property name="title_vertical_offset_inactive" type="int" value="0"/>
-          <property name="toggle_workspaces" type="bool" value="false"/>
-          <property name="unshade_action" type="string" value="shade"/>
           <property name="use_compositing" type="bool" value="true"/>
           <property name="vblank_mode" type="string" value="auto"/>
-          <property name="wheel_icon_rollup" type="bool" value="false"/>
           <property name="workspace_count" type="int" value="6"/>
           <property name="workspace_names" type="array">
             <value type="string" value="1"/>
@@ -115,7 +80,6 @@
             <value type="string" value="6"/>
           </property>
           <property name="wrap_cycle" type="bool" value="true"/>
-          <property name="wrap_layout" type="bool" value="true"/>
           <property name="wrap_workspaces" type="bool" value="false"/>
           <property name="workspace_cycle" type="bool" value="true"/>
         </property>
@@ -126,14 +90,12 @@
       <?xml version="1.0" encoding="UTF-8"?>
       <channel name="xsettings" version="1.0">
         <property name="Net" type="empty">
-          <property name="ThemeName" type="string" value="Windows-7"/>
-          <property name="IconThemeName" type="string" value="Windows-10"/>
+          <property name="ThemeName" type="string" value="Mac-OS-9-Platinum"/>
+          <property name="IconThemeName" type="string" value="Papirus-Dark"/>
           <property name="DoubleClickTime" type="int" value="250"/>
           <property name="DoubleClickDistance" type="int" value="5"/>
-          <property name="DndDragThreshold" type="int" value="8"/>
           <property name="CursorBlink" type="bool" value="true"/>
           <property name="CursorBlinkTime" type="int" value="1200"/>
-          <property name="SoundThemeName" type="string" value="freedesktop"/>
           <property name="EnableEventSounds" type="bool" value="false"/>
           <property name="EnableInputFeedbackSounds" type="bool" value="false"/>
         </property>
@@ -149,9 +111,8 @@
           <property name="CursorThemeSize" type="int" value="24"/>
           <property name="DecorationLayout" type="string" value="menu:minimize,maximize,close"/>
           <property name="FontName" type="string" value="JetBrains Mono 11"/>
-          <property name="IconThemeName" type="string" value="Windows-10"/>
-          <property name="KeyThemeName" type="string" value="/usr/share/themes/Windows-7/gtk-3.0/gtk-keys.css"/>
-          <property name="ThemeName" type="string" value="Windows-7"/>
+          <property name="IconThemeName" type="string" value="Papirus-Dark"/>
+          <property name="ThemeName" type="string" value="Mac-OS-9-Platinum"/>
           <property name="ToolbarStyle" type="string" value="icons"/>
         </property>
       </channel>
@@ -170,7 +131,6 @@
             <property name="&lt;Primary&gt;&lt;Alt&gt;t" type="string" value="exo-open --launch TerminalEmulator"/>
             <property name="&lt;Super&gt;e" type="string" value="thunar"/>
             <property name="&lt;Super&gt;t" type="string" value="kitty"/>
-            <property name="&lt;Super&gt;q" type="string" value="xkill"/>
             <property name="XF86Display" type="string" value="xfce4-display-settings --minimal"/>
             <property name="Print" type="string" value="xfce4-screenshooter"/>
             <property name="&lt;Shift&gt;Print" type="string" value="xfce4-screenshooter --region"/>
@@ -194,9 +154,9 @@
             <property name="&lt;Control&gt;&lt;Alt&gt;d" type="string" value="show_desktop_key"/>
             <property name="&lt;Super&gt;d" type="string" value="show_desktop_key"/>
             <property name="&lt;Super&gt;f" type="string" value="maximize_window_key"/>
+            <property name="&lt;Super&gt;q" type="string" value="close_window_key"/>
             <property name="&lt;Primary&gt;&lt;Alt&gt;End" type="string" value="move_to_next_workspace_key"/>
             <property name="&lt;Primary&gt;&lt;Alt&gt;Home" type="string" value="move_to_prev_workspace_key"/>
-            <property name="&lt;Super&gt;&lt;Shift&gt;q" type="string" value="close_window_key"/>
           </property>
         </property>
       </channel>
@@ -297,23 +257,6 @@
         </action>
       </actions>
     '';
-
-    "Thunar/thunar.xml".text = ''
-      <?xml version="1.0" encoding="UTF-8"?>
-      <channel name="thunar" version="1.0">
-        <property name="shortcuts-view-icon-size" type="string" value="THUNAR_ICON_SIZE_SMALL"/>
-        <property name="misc-open-new-window-as-tab" type="bool" value="true"/>
-        <property name="last-view" type="string" value="ThunarIconView"/>
-        <property name="last-icon-view-zoom-level" type="string" value="THUNAR_ZOOM_NORMAL"/>
-        <property name="last-details-view-zoom-level" type="string" value="THUNAR_ZOOM_NORMAL"/>
-        <property name="last-separator-position" type="int" value="170"/>
-        <property name="last-window-width" type="int" value="800"/>
-        <property name="last-window-height" type="int" value="600"/>
-        <property name="last-window-maximized" type="bool" value="true"/>
-        <property name="misc-thumbnail-draw-frames" type="bool" value="true"/>
-        <property name="misc-thumbnail-mode" type="string" value="THUNAR_THUMBNAIL_MODE_ALWAYS"/>
-      </channel>
-    '';
   };
 
   # GTK theme configuration
@@ -321,28 +264,26 @@
     enable = true;
 
     theme = {
-      name = "Windows-7";
-      package = pkgs.b00merang-windows-7;
+      name = "Mac-OS-9-Platinum";
+      package = pkgs.mac-os-9-platinum;
     };
 
     iconTheme = {
-      name = "Windows-10";
-      package = pkgs.windows10-icons;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
 
     font = {
       name = "JetBrains Mono";
       size = 11;
     };
-  };
 
-  # Start xfce4-session and required services with dbus
-  systemd.user.targets.xfce4 = {
-    Unit = {
-      Description = "XFCE session target";
-      BindsTo = [ "graphical-session.target" ];
-      Wants = [ "graphical-session-pre.target" ];
-      After = [ "graphical-session-pre.target" ];
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = false;
+    };
+
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = false;
     };
   };
 
@@ -369,7 +310,7 @@
     XDG_CURRENT_DESKTOP = "XFCE";
     XDG_SESSION_DESKTOP = "XFCE";
     XDG_SESSION_TYPE = "x11";
-    GTK_THEME = "Windows-7";
+    GTK_THEME = "Mac-OS-9-Platinum";
     QT_QPA_PLATFORM = "xcb";
     QT_STYLE_OVERRIDE = "gtk2";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";

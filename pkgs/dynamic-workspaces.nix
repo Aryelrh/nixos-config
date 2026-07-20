@@ -37,7 +37,7 @@ windows_on_workspace() {
 
 # Get current active workspace
 active_workspace() {
-  ${wmctrl}/bin/wmctrl -d | ${gnugrep}/bin/grep '\*' | ${awk}/bin/awk '{print $1}'
+  ${wmctrl}/bin/wmctrl -d | ${gnugrep}/bin/grep '\*' | ${gawk}/bin/awk '{print $1}'
 }
 
 # Set number of workspaces
