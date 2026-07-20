@@ -90,6 +90,8 @@
   nixpkgs.overlays = [
     (final: prev: {
       lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
+      dynamic-workspaces = prev.callPackage ../../pkgs/dynamic-workspaces.nix {};
+      b00merang-windows-7 = prev.callPackage ../../pkgs/b00merang-windows-7/default.nix {};
     })
   ];
 
@@ -116,8 +118,7 @@
   services.power-profiles-daemon.enable = true;
 
   security.pam.services.login.enableGnomeKeyring = true;
-  security.pam.services.greetd.enableGnomeKeyring = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
+  security.pam.services.lightdm.enableGnomeKeyring = true;
 
   programs.git = {
     enable = true;
@@ -274,25 +275,55 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
-    config.common.default = "gnome";
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = "xfce";
   };
 
   #=============================================================================
-  # GNOME DESKTOP
+  # XFCE DESKTOP
   #=============================================================================
 
   services.xserver.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-  services.gnome.core-apps.enable = false;
-  services.gnome.core-developer-tools.enable = false;
-  services.gnome.games.enable = false;
+  services.xserver.desktopManager.xfce.enable = true;
+  services.xserver.desktopManager.xfce.enableXfwm = true;
+  services.xserver.desktopManager.xfce.enableScreensaver = true;
+  services.xserver.desktopManager.xfce.noDesktop = false;
+  services.xserver.displayManager.lightdm.enable = true;
 
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-user-docs
-  ];
+  # LightDM greeter
+  services.xserver.displayManager.lightdm.greeters.gtk = {
+    enable = true;
+    theme = {
+      name = "Windows-7";
+      package = pkgs.b00merang-windows-7;
+    };
+    iconTheme = {
+      name = "Windows-10";
+      package = pkgs.windows10-icons;
+    };
+    cursorTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = 24;
+    };
+    indicators = [
+      "~host"
+      "~spacer"
+      "~clock"
+      "~spacer"
+      "~language"
+      "~session"
+      "~power"
+    ];
+    extraConfig = ''
+      font-name=JetBrains Mono 11
+    '';
+  };
+
+  # XFCE compose key (AltGr)
+  services.xserver.desktopManager.xfce.extraSessionCommands = ''
+    setxkbmap -option compose:ralt
+  '';
 
   #=============================================================================
   # OLLAMA — Local AI
@@ -339,9 +370,28 @@
     power-profiles-daemon
     ntfs3g
     exfat
-    nautilus
+    thunar
+    thunar-volman
+    thunar-archive-plugin
+    gvfs
     gsettings-desktop-schemas
     gtk3
+    xfce4-whiskermenu-plugin
+    xfce4-pulseaudio-plugin
+    xfce4-notifyd
+    xfce4-taskmanager
+    xfce4-screenshooter
+    xfce4-panel-profiles
+    xfce4-clipman-plugin
+    xfce4-netload-plugin
+    xfce4-cpugraph-plugin
+    xfce4-power-manager
+    ristretto
+    mousepad
+    xfce4-terminal
+    lightdm-gtk-greeter
+    wmctrl
+    xdotool
   ];
 
   #=============================================================================
