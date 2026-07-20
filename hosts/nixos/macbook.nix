@@ -200,26 +200,17 @@
 
   zramSwap = {
     enable = true;
-    memoryPercent = 50;
+    memoryPercent = 25;
   };
 
   swapDevices = [
     { device = "/swapfile"; size = 4096; }
   ];
 
-  systemd.oomd.enable = true;
-
-  #=============================================================================
-  # SYSCTL
-  #=============================================================================
-
-  boot.kernel.sysctl = {
-    "vm.swappiness" = 85;
-    "vm.vfs_cache_pressure" = 100;
-    "vm.overcommit_memory" = 1;
-    "vm.overcommit_ratio" = 100;
-    "vm.compact_memory" = 1;
-    "vm.compaction_proactiveness" = 80;
+  services.earlyoom = {
+    enable = true;
+    freeMemThreshold = 5;
+    freeSwapThreshold = 10;
   };
 
   #=============================================================================

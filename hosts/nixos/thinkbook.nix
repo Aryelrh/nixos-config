@@ -31,6 +31,10 @@
     "i915.enable_dc=1"         # Deep display power states
     "nvme.noacpi=1"            # NVMe ACPI conflict workaround
     "pcie_aspm=force"          # Aggressive PCIe power saving
+    "mitigations=off"
+    "nowatchdog"
+    "split_lock_detect=off"
+    "transparent_hugepage=madvise"
   ];
 
   #=============================================================================
@@ -114,6 +118,13 @@
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.greetd.enableGnomeKeyring = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
+
+  programs.git = {
+    enable = true;
+    config = {
+      credential.helper = "/run/current-system/sw/bin/git-credential-libsecret";
+    };
+  };
 
   #=============================================================================
   # TIME / LOCALE / KEYMAP
@@ -215,28 +226,19 @@
 
   zramSwap = {
     enable = true;
-    memoryPercent = 50;
+    memoryPercent = 25;
   };
 
   swapDevices = [
     { device = "/swapfile"; size = 4096; }
   ];
 
-  systemd.oomd.enable = true;
-
-  #=============================================================================
-  # SYSCTL
-  #=============================================================================
-
-  boot.kernel.sysctl = {
-    "vm.swappiness" = 85;
-    "vm.vfs_cache_pressure" = 100;
-    "vm.overcommit_memory" = 1;
-    "vm.overcommit_ratio" = 100;
-    "vm.compact_memory" = 1;
-    "vm.compaction_proactiveness" = 80;
+  services.earlyoom = {
+    enable = true;
+    freeMemThreshold = 5;
+    freeSwapThreshold = 10;
   };
-  
+
   #=============================================================================
   # Terminal interface improvement
   #=============================================================================
@@ -305,13 +307,25 @@
   programs.nix-ld.enable = true;
 
   #=============================================================================
+  # STEAM
+  #=============================================================================
+
+  programs.steam = {
+    enable = true;
+
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
+  };
+
+  #=============================================================================
   # SYSTEM PACKAGES
   #=============================================================================
 
   environment.systemPackages = with pkgs; [
     kitty
     adwaita-icon-theme
-    git
+    gitFull
     wget
     fastfetch
     acpi
