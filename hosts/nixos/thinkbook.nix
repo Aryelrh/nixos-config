@@ -90,7 +90,6 @@
   nixpkgs.overlays = [
     (final: prev: {
       lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
-      dynamic-workspaces = prev.callPackage ../../pkgs/dynamic-workspaces.nix {};
 
     })
   ];
