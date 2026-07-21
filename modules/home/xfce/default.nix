@@ -2,20 +2,44 @@
 
 let
   macos9-theme = pkgs.stdenv.mkDerivation {
-    pname = "mac-os-9-theme";
-    version = "unstable-2019-07-05";
+    pname = "macos9-theme";
+    version = "unstable-2026-07-21";
+
+    platinum9 = pkgs.fetchFromGitHub {
+      owner = "grassmunk";
+      repo = "Platinum9";
+      rev = "d3d2080c1a2d5772714d089d1dc1daeeb41db008";
+      sha256 = "sha256-rKM2/Hk1Z/HszSAO0Yf/Zh3d+QGTRJrAE/Mo90Qxgvw=";
+    };
 
     src = pkgs.fetchFromGitHub {
       owner = "B00merang-Project";
       repo = "Mac-OS-9";
-      rev = "1.0";
-      sha256 = "sha256-n02voyWxg9rxAO1wiZDOvXvhnZxTIqT5CRXsRv+1ags=";
+      rev = "ca8a5d2a3fb1976cf904133574a3d0022ac2cf71";
+      sha256 = "sha256-gMyLP+7rZdhlCZVVHjzvWvQzvWSLfNZWCvgFUWuMeyw=";
     };
 
     dontBuild = true;
     installPhase = ''
+      # GTK theme de B00merang (gtk-2.0 + gtk-3.0 + gtk-4.0) — widgets/panel
       mkdir -p $out/share/themes/Mac-OS-9
       cp -r $src/* $out/share/themes/Mac-OS-9/
+
+      # xfwm4 de Platinum9 — bordes de ventana
+      mkdir -p $out/share/themes/PlatiPlus
+      cp -r $platinum9/PlatiPlus/* $out/share/themes/PlatiPlus/
+
+      mkdir -p $out/share/themes/PlatiPlus26
+      cp -r $platinum9/PlatiPlus26/* $out/share/themes/PlatiPlus26/
+
+      # Fonts de Platinum9
+      mkdir -p $out/share/fonts/truetype
+      cp $platinum9/Charcoal.ttf $out/share/fonts/truetype/
+      cp $platinum9/MONACO.TTF $out/share/fonts/truetype/
+
+      # Wallpaper
+      mkdir -p $out/share/backgrounds
+      cp $platinum9/OS9-wallpaper/*.png $out/share/backgrounds/ 2>/dev/null || true
     '';
   };
 in
@@ -96,7 +120,7 @@ in
     # xfwm4 — tema de bordes/ventana, compositor, workspaces
     #-----------------------------------------------------------------------
     xfwm4 = {
-      "general/theme" = "Arc-Dark";
+      "general/theme" = "PlatiPlus26";
       "general/activate_action" = "bring";
       "general/borderless_maximize" = true;
       "general/button_layout" = "O|SHMC";
@@ -235,19 +259,22 @@ in
       ScrollingUnlimited=TRUE
     '';
 
-    "Thunar/uca.xml".text = ''
-      <?xml version="1.0" encoding="UTF-8"?>
-      <actions>
-        <action>
-          <icon>utilities-terminal</icon>
-          <name>Open Terminal Here</name>
-          <command>kitty --working-directory %f</command>
-          <patterns>*</patterns>
-          <startup-notify/>
-          <directories/>
-        </action>
-      </actions>
-    '';
+    "Thunar/uca.xml" = {
+      force = true;
+      text = ''
+        <?xml version="1.0" encoding="UTF-8"?>
+        <actions>
+          <action>
+            <icon>utilities-terminal</icon>
+            <name>Open Terminal Here</name>
+            <command>kitty --working-directory %f</command>
+            <patterns>*</patterns>
+            <startup-notify/>
+            <directories/>
+          </action>
+        </actions>
+      '';
+    };
   };
 
   # GTK theme configuration
