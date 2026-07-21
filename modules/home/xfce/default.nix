@@ -20,9 +20,6 @@
     mousepad
     xfce4-session
 
-    # Mac OS 9 Platinum theme
-    pkgs.mac-os-9-platinum
-
     # Icons
     papirus-icon-theme
 
@@ -65,7 +62,7 @@
           <property name="snap_to_border" type="bool" value="true"/>
           <property name="snap_to_windows" type="bool" value="true"/>
           <property name="snap_width" type="int" value="10"/>
-          <property name="theme" type="string" value="Mac-OS-9-Platinum"/>
+          <property name="theme" type="string" value="Default"/>
           <property name="title_alignment" type="string" value="center"/>
           <property name="title_font" type="string" value="JetBrains Mono 11"/>
           <property name="use_compositing" type="bool" value="true"/>
@@ -90,7 +87,7 @@
       <?xml version="1.0" encoding="UTF-8"?>
       <channel name="xsettings" version="1.0">
         <property name="Net" type="empty">
-          <property name="ThemeName" type="string" value="Mac-OS-9-Platinum"/>
+          <property name="ThemeName" type="string" value="Adwaita"/>
           <property name="IconThemeName" type="string" value="Papirus-Dark"/>
           <property name="DoubleClickTime" type="int" value="250"/>
           <property name="DoubleClickDistance" type="int" value="5"/>
@@ -112,7 +109,7 @@
           <property name="DecorationLayout" type="string" value="menu:minimize,maximize,close"/>
           <property name="FontName" type="string" value="JetBrains Mono 11"/>
           <property name="IconThemeName" type="string" value="Papirus-Dark"/>
-          <property name="ThemeName" type="string" value="Mac-OS-9-Platinum"/>
+          <property name="ThemeName" type="string" value="Adwaita"/>
           <property name="ToolbarStyle" type="string" value="icons"/>
         </property>
       </channel>
@@ -124,6 +121,7 @@
         <property name="commands" type="empty">
           <property name="default" type="empty">
             <property name="&lt;Alt&gt;F1" type="string" value="xfce4-popup-whiskermenu"/>
+            <property name="Super_L" type="string" value="xfce4-popup-whiskermenu"/>
             <property name="&lt;Alt&gt;F2" type="string" value="xfce4-appfinder --collapsed"/>
             <property name="&lt;Alt&gt;F3" type="string" value="xfce4-appfinder"/>
             <property name="&lt;Primary&gt;&lt;Alt&gt;Delete" type="string" value="xflock4"/>
@@ -263,11 +261,6 @@
   gtk = {
     enable = true;
 
-    theme = {
-      name = "Mac-OS-9-Platinum";
-      package = pkgs.mac-os-9-platinum;
-    };
-
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
@@ -279,11 +272,11 @@
     };
 
     gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = false;
+      gtk-application-prefer-dark-theme = true;
     };
 
     gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = false;
+      gtk-application-prefer-dark-theme = true;
     };
   };
 
@@ -310,7 +303,6 @@
     XDG_CURRENT_DESKTOP = "XFCE";
     XDG_SESSION_DESKTOP = "XFCE";
     XDG_SESSION_TYPE = "x11";
-    GTK_THEME = "Mac-OS-9-Platinum";
     QT_QPA_PLATFORM = "xcb";
     QT_STYLE_OVERRIDE = "gtk2";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";

@@ -253,14 +253,6 @@
   # LightDM greeter
   services.xserver.displayManager.lightdm.greeters.gtk = {
     enable = true;
-    theme = {
-      name = "Mac-OS-9-Platinum";
-      package = pkgs.mac-os-9-platinum;
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
     cursorTheme = {
       name = "Adwaita";
       package = pkgs.adwaita-icon-theme;
@@ -280,9 +272,9 @@
     '';
   };
 
-  # XFCE keyboard — US International + compose key (AltGr)
+  # XFCE keyboard — US International (AltGr para ñ y tildes)
   services.xserver.desktopManager.xfce.extraSessionCommands = ''
-    setxkbmap us intl -option compose:ralt
+    setxkbmap us intl
   '';
 
   #=============================================================================
