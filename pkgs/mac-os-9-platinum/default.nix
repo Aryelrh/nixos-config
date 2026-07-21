@@ -1,27 +1,20 @@
-{ lib, stdenv, fetchFromGitHub }:
+{ lib, stdenv }:
 
 stdenv.mkDerivation {
   pname = "mac-os-9-platinum";
   version = "1.0";
 
-  src = fetchFromGitHub {
-    owner = "moltensoftware";
-    repo = "Mac-OS-9-Classic-XFCEfixes";
-    rev = "f6a3f517e7bfbb30dcd61ecb2227390fd9276901";
-    sha256 = "1nwqz6hp07mkaxpfrmdc535lv9x3bmws13df58c89n7qnqz1pchz";
-  };
+  src = ../../modules/home/xfce/themes/Mac-OS-9-Platinum-Default;
 
   installPhase = ''
     mkdir -p $out/share/themes/Mac-OS-9-Platinum
-    cp -r gtk-2.0 gtk-3.0 xfwm4 index.theme $out/share/themes/Mac-OS-9-Platinum/
-    rm -f $out/share/themes/Mac-OS-9-Platinum/README.md
+    cp -r * $out/share/themes/Mac-OS-9-Platinum/
   '';
 
   meta = with lib; {
-    description = "Mac OS 9 Platinum theme for GTK2/3 and xfwm4";
-    homepage = "https://github.com/moltensoftware/Mac-OS-9-Classic-XFCEfixes";
+    description = "Mac OS 9 Classic theme for GTK2/3";
+    homepage = "https://github.com/B00merang-Project/Mac-OS-9";
     license = licenses.gpl3Only;
     platforms = platforms.linux;
-    maintainers = [];
   };
 }

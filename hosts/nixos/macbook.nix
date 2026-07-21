@@ -83,7 +83,7 @@
     (final: prev: {
       lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
       dynamic-workspaces = prev.callPackage ../../pkgs/dynamic-workspaces.nix {};
-      mac-os-9-platinum = prev.callPackage ../../pkgs/mac-os-9-platinum/default.nix {};
+
     })
   ];
 

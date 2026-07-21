@@ -1,5 +1,17 @@
 { pkgs, lib, config, ... }:
 
+let
+  mac-os-9-platinum = pkgs.stdenv.mkDerivation {
+    pname = "mac-os-9-platinum";
+    version = "1.0";
+    src = ./themes/Mac-OS-9-Platinum-Default;
+    installPhase = ''
+      mkdir -p $out/share/themes/Mac-OS-9-Platinum
+      cp -r * $out/share/themes/Mac-OS-9-Platinum/
+    '';
+  };
+in
+
 {
   home.packages = with pkgs; [
     # XFCE goodies
@@ -19,6 +31,9 @@
     pavucontrol
     mousepad
     xfce4-session
+
+    # Mac OS 9 Platinum theme
+    mac-os-9-platinum
 
     # Icons
     papirus-icon-theme
@@ -87,7 +102,7 @@
       <?xml version="1.0" encoding="UTF-8"?>
       <channel name="xsettings" version="1.0">
         <property name="Net" type="empty">
-          <property name="ThemeName" type="string" value="Adwaita"/>
+          <property name="ThemeName" type="string" value="Mac-OS-9-Platinum"/>
           <property name="IconThemeName" type="string" value="Papirus-Dark"/>
           <property name="DoubleClickTime" type="int" value="250"/>
           <property name="DoubleClickDistance" type="int" value="5"/>
@@ -109,7 +124,7 @@
           <property name="DecorationLayout" type="string" value="menu:minimize,maximize,close"/>
           <property name="FontName" type="string" value="JetBrains Mono 11"/>
           <property name="IconThemeName" type="string" value="Papirus-Dark"/>
-          <property name="ThemeName" type="string" value="Adwaita"/>
+          <property name="ThemeName" type="string" value="Mac-OS-9-Platinum"/>
           <property name="ToolbarStyle" type="string" value="icons"/>
         </property>
       </channel>
@@ -121,7 +136,6 @@
         <property name="commands" type="empty">
           <property name="default" type="empty">
             <property name="&lt;Alt&gt;F1" type="string" value="xfce4-popup-whiskermenu"/>
-            <property name="Super_L" type="string" value="xfce4-popup-whiskermenu"/>
             <property name="&lt;Alt&gt;F2" type="string" value="xfce4-appfinder --collapsed"/>
             <property name="&lt;Alt&gt;F3" type="string" value="xfce4-appfinder"/>
             <property name="&lt;Primary&gt;&lt;Alt&gt;Delete" type="string" value="xflock4"/>
@@ -132,6 +146,10 @@
             <property name="XF86Display" type="string" value="xfce4-display-settings --minimal"/>
             <property name="Print" type="string" value="xfce4-screenshooter"/>
             <property name="&lt;Shift&gt;Print" type="string" value="xfce4-screenshooter --region"/>
+          </property>
+          <property name="custom" type="empty">
+            <property name="&lt;Super&gt;s" type="string" value="xfce4-screenshooter"/>
+            <property name="&lt;Super&gt;&lt;Shift&gt;s" type="string" value="xfce4-screenshooter --region"/>
           </property>
         </property>
         <property name="xfwm4" type="empty">
@@ -210,7 +228,10 @@
           </property>
         </property>
         <property name="plugins" type="empty">
-          <property name="plugin-1" type="string" value="whiskermenu"/>
+          <property name="plugin-1" type="string" value="whiskermenu">
+            <property name="shortcut" type="string" value="Super_L"/>
+            <property name="shortcut-enabled" type="bool" value="true"/>
+          </property>
           <property name="plugin-2" type="string" value="tasklist">
             <property name="flat-buttons" type="bool" value="false"/>
             <property name="show-handle" type="bool" value="false"/>
@@ -261,6 +282,11 @@
   gtk = {
     enable = true;
 
+    theme = {
+      name = "Mac-OS-9-Platinum";
+      package = mac-os-9-platinum;
+    };
+
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
@@ -272,11 +298,11 @@
     };
 
     gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+      gtk-application-prefer-dark-theme = false;
     };
 
     gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+      gtk-application-prefer-dark-theme = false;
     };
   };
 
@@ -303,6 +329,7 @@
     XDG_CURRENT_DESKTOP = "XFCE";
     XDG_SESSION_DESKTOP = "XFCE";
     XDG_SESSION_TYPE = "x11";
+    GTK_THEME = "Mac-OS-9-Platinum";
     QT_QPA_PLATFORM = "xcb";
     QT_STYLE_OVERRIDE = "gtk2";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
