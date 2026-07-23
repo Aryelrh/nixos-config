@@ -60,6 +60,7 @@ in
     xfce4-clipman-plugin
     xfce4-netload-plugin
     xfce4-cpugraph-plugin
+    xfdashboard
     pavucontrol
     mousepad
     xfce4-session
@@ -105,7 +106,7 @@ in
       "Net/EnableEventSounds" = false;
       "Net/EnableInputFeedbackSounds" = false;
 
-      "Xft/DPI" = -1;
+      "Xft/DPI" = 96;
       "Xft/Antialias" = 1;
       "Xft/Hinting" = 1;
       "Xft/HintStyle" = "hintslight";
@@ -180,24 +181,12 @@ in
       "commands/default/Print" = "xfce4-screenshooter";
       "commands/default/<Shift>Print" = "xfce4-screenshooter --region";
 
+      "commands/custom/<Super>Tab" = "xfdashboard --toggle";
       "commands/custom/<Super>s" = "xfce4-screenshooter";
       "commands/custom/<Super><Shift>s" = "xfce4-screenshooter --region";
 
-      # Fix real del Super para whiskermenu: NO existe una propiedad
-      # "shortcut" en el plugin del panel (lo verificamos con
-      # xfconf-query -c xfce4-panel -p /plugins/plugin-6/shortcut → "no
-      # existe"). El mecanismo correcto y soportado es bindear la keysym
-      # sola como shortcut de teclado normal, igual que cualquier otro atajo.
-      # Se enlazan L y R para que funcione sin importar cuál Super uses.
-      #
-      # OJO — limitación conocida de XFCE: al bindear Super_L/Super_R solos,
-      # a veces interfiere con OTROS atajos que usan <Super>+tecla (tienes
-      # <Super>d, <Super>e, <Super>f, <Super>q, <Super>t, <Super>s abajo).
-      # Si notas que esos dejan de disparar bien, es este binding — se
-      # soluciona quitando Super_R (dejando solo Super_L) o quitándolo del
-      # todo y usando Alt+F1 (ya bindeado abajo) como alternativa.
-      "commands/custom/Super_L" = "xfce4-popup-whiskermenu";
-      "commands/custom/Super_R" = "xfce4-popup-whiskermenu";
+      # Whiskermenu vía Alt+F1 (línea 148). NO bindeamos Super_L solo
+      # porque interfiere con todos los <Super>+tecla (q, d, e, f, t, s).
 
       "xfwm4/default/<Alt>F4" = "close_window_key";
       "xfwm4/default/<Alt>F7" = "move_window_key";
@@ -215,24 +204,22 @@ in
       "xfwm4/default/<Control><Alt>d" = "show_desktop_key";
       "xfwm4/default/<Super>d" = "show_desktop_key";
       "xfwm4/default/<Super>f" = "maximize_window_key";
-      "xfwm4/default/<Super>q" = "close_window_key";
+      "xfwm4/default/<Super><Shift>q" = "close_window_key";
       "xfwm4/default/<Primary><Alt>End" = "move_to_next_workspace_key";
       "xfwm4/default/<Primary><Alt>Home" = "move_to_prev_workspace_key";
     };
 
     #-----------------------------------------------------------------------
-    # xfce4-desktop — wallpaper por monitor
+    # xfce4-desktop — NO tocamos nada, HM resetea el fondo al activar
     #-----------------------------------------------------------------------
-    xfce4-desktop = {
-      "backdrop/screen0/monitoreDP-1/workspace0/color-style" = 0;
-      "backdrop/screen0/monitoreDP-1/workspace0/image-style" = 5;
-      "backdrop/screen0/monitoreDP-1/workspace0/last-image" =
-        "${config.home.homeDirectory}/Pictures/Wallpapers/WhiteRed.png";
+    xfce4-desktop = { };
 
-      "backdrop/screen0/monitorHDMI-A-1/workspace0/color-style" = 0;
-      "backdrop/screen0/monitorHDMI-A-1/workspace0/image-style" = 5;
-      "backdrop/screen0/monitorHDMI-A-1/workspace0/last-image" =
-        "${config.home.homeDirectory}/Pictures/Wallpapers/WhiteRed.png";
+    #-----------------------------------------------------------------------
+    # xfdashboard — optimizaciones de rendimiento
+    #-----------------------------------------------------------------------
+    xfdashboard = {
+      "/enable-animations" = false;
+      "/allow-subwindows" = false;
     };
 
     #-----------------------------------------------------------------------
@@ -309,6 +296,16 @@ in
     QT_STYLE_OVERRIDE = "gtk2";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
   };
+
+  # Autostart xfdashboard en daemon mode
+  xdg.configFile."autostart/xfdashboard.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=xfdashboard
+    Exec=xfdashboard --daemonize
+    Terminal=false
+    NoDisplay=true
+  '';
 
   # Kitty config from existing theme
   xdg.configFile."kitty".source = ../components/WhiteBlackSchema/kitty;

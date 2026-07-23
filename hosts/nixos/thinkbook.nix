@@ -25,6 +25,8 @@
   #-------------------------
   # Kernel parameters
   #-------------------------
+  boot.blacklistedKernelModules = [ "pcspkr" ];
+
   boot.kernelParams = [
     "i915.enable_psr=1"        # Panel Self Refresh — battery
     "i915.enable_fbc=1"        # Framebuffer compression
@@ -211,6 +213,11 @@
    };
    pulse.enable = true;
    jack.enable = true;
+   extraConfig.pipewire."99-silent-bell" = {
+     "context.properties" = {
+       "module.x11.bell" = false;
+     };
+   };
   };
 
   #=============================================================================
@@ -224,14 +231,15 @@
   # MEMORY — Zram, Swap, OOM
   #=============================================================================
 
-  zramSwap = {
-    enable = true;
-    memoryPercent = 25;
-  };
+  # zramSwap = {
+  #   enable = true;
+  #   memoryPercent = 25;
+  # };
 
-  swapDevices = [
-    { device = "/swapfile"; size = 4096; }
-  ];
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16384; # 16 GB
+  }];
 
   services.earlyoom = {
     enable = true;
@@ -312,8 +320,9 @@
   };
 
   # XFCE keyboard — US International (AltGr para ñ y tildes)
-  services.xserver.desktopManager.xfce.extraSessionCommands = ''
+  services.xserver.displayManager.sessionCommands = ''
     setxkbmap us intl
+    xset b off
   '';
 
   #=============================================================================
