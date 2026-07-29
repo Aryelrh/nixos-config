@@ -3,7 +3,7 @@
 # Device: Lenovo ThinkBook (actual laptop)
 #===============================================================================
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports =
