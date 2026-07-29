@@ -20,7 +20,11 @@
   #---------------
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  #boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-x86_64-v3;
+
+  nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
+  nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
   #-------------------------
   # Kernel parameters
@@ -88,9 +92,7 @@
   #=============================================================================
 
   nixpkgs.overlays = [
-    (final: prev: {
-      lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
-    })
+    inputs.nix-cachyos-kernel.overlays.pinned
   ];
 
   #-------------------------------------------
