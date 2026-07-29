@@ -115,6 +115,7 @@ in
     pkgs.cmus
     pkgs.vlc
     pkgs.system-config-printer
+    pkgs.spotify-player
 
     #------------------
     # Apps

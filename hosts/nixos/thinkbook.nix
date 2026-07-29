@@ -3,7 +3,7 @@
 # Device: Lenovo ThinkBook (actual laptop)
 #===============================================================================
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports =
@@ -20,7 +20,16 @@
   #---------------
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  #boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-x86_64-v3;
+
+  #-------------------------------------------------------
+  # Binary cache del kernel CachyOS (lantian/attic)
+  # IMPORTANTE: esto debe activarse en un rebuild PREVIO a
+  # cambiar boot.kernelPackages, si no, compila desde fuente.
+  #-------------------------------------------------------
+  nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
+  nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
   #-------------------------
   # Kernel parameters
@@ -33,7 +42,6 @@
     "i915.enable_dc=1"         # Deep display power states
     "nvme.noacpi=1"            # NVMe ACPI conflict workaround
     "pcie_aspm=force"          # Aggressive PCIe power saving
-    "mitigations=off"
     "nowatchdog"
     "split_lock_detect=off"
     "transparent_hugepage=madvise"
@@ -90,10 +98,7 @@
   #=============================================================================
 
   nixpkgs.overlays = [
-    (final: prev: {
-      lazyspotify = prev.callPackage ../../pkgs/lazyspotify.nix {};
-
-    })
+    inputs.nix-cachyos-kernel.overlays.pinned
   ];
 
   #-------------------------------------------
@@ -185,6 +190,7 @@
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTR{idVendor}=="0955", ATTR{idProduct}=="7321", MODE="0666", GROUP="plugdev"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", MODE="0666", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee0", MODE="0666"
   '';
 
   users.groups.plugdev = {};

@@ -20,6 +20,10 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+
+    # CachyOS kernel — usar `release` (lo que Hydra CI construye y cachea)
+    # NO le pongas `inputs.nixpkgs.follows`: sus versiones/parches deben ir sincronizados
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   #=============================================================================
@@ -32,21 +36,30 @@
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
-
       specialArgs = { inherit inputs; };
-
       modules = [
-        ./hosts/nixos/configuration.nix
+        ./hosts/nixos/thinkbook.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.aryel = {
-            imports = [
-              ./home/aryel/home.nix
-            ];
-          };
+          home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
+        }
+      ];
+    };
+
+    nixosConfigurations.macbook = nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./hosts/nixos/macbook.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
         }
       ];
     };
