@@ -181,10 +181,14 @@
   #=============================================================================
   # UDEV — Nintendo Switch
   #=============================================================================
-
+  
   services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTR{idVendor}=="0955", ATTR{idProduct}=="7321", MODE="0666", GROUP="plugdev"
+    # RCM / APX (payload injection - hekate, TegraRcmGUI, etc.)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0955", ATTRS{idProduct}=="7321", MODE="0666", GROUP="plugdev"
+    # Nintendo Switch estándar (NXDT, GoldLeaf, etc.)
     SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", MODE="0666", GROUP="plugdev"
+    # SysDVR (se presenta como dispositivo Android fastboot)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee0", MODE="0666", GROUP="plugdev"
   '';
 
   users.groups.plugdev = {};

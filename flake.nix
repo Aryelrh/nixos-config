@@ -34,21 +34,30 @@
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
-
       specialArgs = { inherit inputs; };
-
       modules = [
-        ./hosts/nixos/configuration.nix
+        ./hosts/nixos/thinkbook.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.aryel = {
-            imports = [
-              ./home/aryel/home.nix
-            ];
-          };
+          home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
+        }
+      ];
+    };
+
+    nixosConfigurations.macbook = nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./hosts/nixos/macbook.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
         }
       ];
     };
