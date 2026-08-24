@@ -23,8 +23,24 @@
     "i915.enable_dc=1"         # Deep display power states
     "pcie_aspm=force"          # Aggressive PCIe power saving
     "snd_hda_intelpower_save=4"  # Audio power saving
-    "snd_hda_intel power_save=1"
+    "snd_hda_intelpower_save=1"
+    "bcma.no_ucode=1"          # BCMA firmware workaround
+    "b43=1"                    # b43 module blacklist (handled via broadcom-sta)
   ];
+  #================================
+  # MACBOOK AIR WIFI CONFIG
+  #================================
+   
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "broadcom-sta-6.30.223.271-59-6.18.45"
+  ];
+
+  #=============================================================================
+  # FIRMWARE
+  #=============================================================================
+
+  hardware.enableRedistributableFirmware = true;
 
   #=============================================================================
   # NETWORKING
@@ -196,7 +212,7 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-sway ];
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
     config.common.default = "sway";
   };
 
@@ -232,7 +248,6 @@
     unrar
     p7zip
     pavucontrol
-    latv
     swayimg
     mpv
     cmus
