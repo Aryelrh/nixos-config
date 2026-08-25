@@ -1,0 +1,15 @@
+/* Green-Black theme — variables usadas por waybar/style.css */
+@define-color background #04080D;
+@define-color foreground #D9E8F5;
+
+/* Green and Black theme */
+@define-color green #7FC894;
+@define-color green1 #C9A84D;
+@define-color green2 #6BA87F;
+@define-color green3 #7FC894;
+
+@define-color white #D9E8F5;
+@define-color black #04080D;
+
+/* UI colors */
+@define-color select #313244;

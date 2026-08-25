@@ -41,7 +41,11 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            keyboard.layout = "us";
+            keyboard.variant = "intl";
+          };
           home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
         }
       ];
@@ -56,7 +60,11 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            keyboard.layout = "us";
+            keyboard.variant = "intl";
+          };
           home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
         }
       ];
@@ -71,8 +79,17 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.aryel.imports = [ ./home/aryel/home.nix ];
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            keyboard.layout = "es-mac"; # español estilo Mac, ver hosts/nixos/es-mac.xkb
+          };
+          home-manager.users.aryel.imports = [
+            ./home/aryel/home.nix
+            ./modules/home/components/GreenBlackSchema # waybar + fuzzel + kitty + wallpaper (solo macbook-air)
+          ];
+          # El validador del sandbox no encuentra el layout custom "es-mac"
+          # (vive en el xkeyboard-config parcheado de NixOS, disponible solo en runtime)
+          home-manager.users.aryel.wayland.windowManager.sway.checkConfig = false;
         }
       ];
     };

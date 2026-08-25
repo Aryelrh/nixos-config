@@ -22,18 +22,17 @@
     "i915.enable_fbc=1"        # Framebuffer compression
     "i915.enable_dc=1"         # Deep display power states
     "pcie_aspm=force"          # Aggressive PCIe power saving
-    "snd_hda_intelpower_save=4"  # Audio power saving
-    "snd_hda_intelpower_save=1"
-    "bcma.no_ucode=1"          # BCMA firmware workaround
-    "b43=1"                    # b43 module blacklist (handled via broadcom-sta)
   ];
   #================================
   # MACBOOK AIR WIFI CONFIG
   #================================
    
   nixpkgs.config.allowUnfree = true;
+  boot.initrd.kernelModules = [ "wl" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  boot.blacklistedKernelModules = [ "b43" "ssb" "brcmfmac" "brcmsmac" "bcma" ];
   nixpkgs.config.permittedInsecurePackages = [
-    "broadcom-sta-6.30.223.271-59-6.18.45"
+    "broadcom-sta-6.30.223.271-59-7.0.12"
   ];
 
   #=============================================================================
@@ -112,7 +111,9 @@
 
   # No GNOME keyring on Sway - use pass + simple keyring
   services.gnome.gnome-keyring.enable = false;
-  programs.dconf.enable = false;
+  # dconf must stay enabled: HM's gtk module writes cursor/theme settings
+  # through the dconf DBus service during activation
+  programs.dconf.enable = true;
 
   services.power-profiles-daemon.enable = true;
 
@@ -120,13 +121,6 @@
   security.pam.services.login.enableGnomeKeyring = false;
   security.pam.services.greetd.enableGnomeKeyring = false;
   security.pam.services.sddm.enableGnomeKeyring = false;
-
-  programs.git = {
-    enable = true;
-    config = {
-      credential.helper = "cache";
-    };
-  };
 
   #=============================================================================
   # TIME / LOCALE / KEYMAP
@@ -148,12 +142,18 @@
     LC_TIME = "es_CR.UTF-8";
   };
 
+  # Español estilo macOS: @ con Alt+2 y tildes con Alt (Alt+E -> á)
+  # Layout custom definido en ./es-mac.xkb
   services.xserver.xkb = {
-    layout = "us";
-    variant = "intl";
+    layout = "es-mac";
+    extraLayouts.es-mac = {
+      description = "Spanish (Mac-style, accents via Alt)";
+      languages = [ "spa" ];
+      symbolsFile = ./es-mac.xkb;
+    };
   };
 
-  console.keyMap = "us-acentos";
+  console.keyMap = "es";
 
   #=============================================================================
   # AUDIO — PipeWire
@@ -210,6 +210,11 @@
   # XDG DESKTOP PORTAL — Sway edition
   #=============================================================================
 
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
+
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
@@ -233,14 +238,21 @@
     WLR_NO_HARDWARE_CURSORS = "1";
   };
 
+  #========================
+  # GIT
+  #========================
+  
+  programs.ssh.startAgent = true;
+
   #=============================================================================
   # SYSTEM PACKAGES
   #=============================================================================
 
   environment.systemPackages = with pkgs; [
+    brave
+    podman-compose
     kitty
     adwaita-icon-theme
-    git
     wget
     fastfetch
     acpi
@@ -280,8 +292,26 @@
   security.polkit.enable = true;
 
   #=============================================================================
-  # STATE VERSION
+  # TERMINAL PROMPT — Starship (flecha + estado git), igual que thinkbook
   #=============================================================================
 
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = false;
+      character = {
+        success_symbol = "[➜](bold green)";
+        error_symbol = "[➜](bold red)";
+      };
+    };
+  };
+
+  #=============================================================================
+  # STATE VERSION
+  #=============================================================================
+  services.openssh = {
+    enable = true;
+  };
+  
   system.stateVersion = "26.05";
 }

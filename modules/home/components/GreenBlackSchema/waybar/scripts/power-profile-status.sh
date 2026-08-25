@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+command -v powerprofilesctl >/dev/null 2>&1 || { echo "󰾅"; exit 0; }
+
 PROFILE=$(powerprofilesctl get)
 
 case "$PROFILE" in

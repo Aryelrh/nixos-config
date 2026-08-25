@@ -1,0 +1,27 @@
+// Español estilo macOS para MacBook Air.
+//
+// - @ en la tecla del 2 (Alt/Option+2, heredado de es(basic), nivel 3)
+// - Tildes con Alt, igual que en macOS:
+//     Alt+E + vocal = á é í ó ú
+//     Alt+N + n     = ñ
+//     Alt+U + u/v   = ü ǘ
+//     Alt+I + i/e/o = î ê ô
+// - Ambas teclas Alt funcionan como modificador de nivel 3
+//   (level3(alt_switch)); AltGr también sigue funcionando.
+//
+// Los dead keys clásicos del teclado español (´ ` ¨ ^) se conservan.
+
+default partial alphanumeric_keys
+xkb_symbols "basic" {
+    include "es(basic)"
+    name[Group1] = "Spanish (Mac)";
+
+    // Dead keys de macOS en el nivel 3 (teclas Alt/Option)
+    key <AD03> { [ e, E, dead_acute      ] };    // Alt+E + vocal = á é í ó ú
+    key <AD07> { [ u, U, dead_diaeresis  ] };    // Alt+U + vocal = ü ë ï ö
+    key <AB06> { [ n, N, dead_tilde      ] };    // Alt+N + n     = ñ
+    key <AD08> { [ i, I, dead_circumflex ] };    // Alt+I + vocal = î ê û ô
+
+    // Ambas teclas Alt eligen el tercer nivel (@ en la tecla 2, tildes, etc.)
+    include "level3(alt_switch)"
+};

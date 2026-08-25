@@ -30,7 +30,7 @@
     "custom/power": {
         "format" : "⭘ ",
         "tooltip": false,
-        "on-click": "wlogout -b 5",
+        "on-click": "wlogout -b 5"
     },
 
     "hyprland/workspaces": {
@@ -38,7 +38,7 @@
         "all-outputs": true,
         "warp-on-scroll": false,
         "format": "{name}",
-        "cursor": true,
+        "cursor": true
     },
 
     "tray": {
@@ -51,7 +51,7 @@
           "wifi networks",
           "nm-applet",
           "NetworkManager Applet",
-          "networkmanagerapplet",
+          "networkmanagerapplet"
         ]
     },
 
@@ -59,7 +59,7 @@
         "format": " 󰂯 ",
         "format-disabled": " 󰂲 ",
         "format-connected": " 󰂱 ",
-        "on-click": "kitty bluetui",
+        "on-click": "kitty bluetui"
     },
 
     "network": {
@@ -68,7 +68,7 @@
         "format-linked": "  Linked (No IP)",
         "format-disconnected": "  Disconnected",
         "tooltip": false,
-	      "on-click": "kitty nmtui",
+	      "on-click": "kitty nmtui"
     },
 
     "custom/powerprofile": {
@@ -92,7 +92,7 @@
         "format-alt": "{icon} {capacity}%",
         "format-icons": [" ", " ", " ", " ", " "],
         "tooltip-format": "{time}",
-        "cursor": false,
+        "cursor": false
     },
 
     "custom/mic": {
@@ -110,9 +110,9 @@
         "format-icons": {
             "headphone": " ",
             "headset": " ",
-            "default": [" "],
+            "default": [" "]
         },
-        "on-click": "pavucontrol",
+        "on-click": "pavucontrol"
     },
 
     "clock": {
@@ -124,9 +124,9 @@
                 "months": "<span color='#F5C2E7'><b>{}</b></span>",
                 "weekdays": "<span color='#89B4FA'><b>{}</b></span>",
                 "days": "<span color='#CDD6F4'><b>{}</b></span>",
-                "today": "<span color='#F9E2AF'><b>{}</b></span>",
+                "today": "<span color='#F9E2AF'><b>{}</b></span>"
             }
         },
-        "on-click": "swaync-client -t -sw",
+        "on-click": "swaync-client -t -sw"
     }
 }
