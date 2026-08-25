@@ -78,46 +78,18 @@ in
   };
 
   #=============================================================================
-  # VSCODE
+  # KEYRING
   #=============================================================================
 
-  programs.vscode = {
+  services.gnome-keyring = {
     enable = true;
-    profiles.default.userSettings = {
-      "terminal.integrated.defaultProfile.linux" = "bash";
-      "terminal.integrated.profiles.linux" = {
-        bash = {
-          path = "/etc/profiles/per-user/aryel/bin/bash";
-        };
-      };
-      "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
-    };
+    components = [ "secrets" ];
   };
 
-  #============================================================================
-  # GIT
-  #============================================================================
-
-  programs.git = {
-    enable = true;
-    settings = {
-      user.name = "Aryelrh";
-      user.email = "aryel.rivera.hernandez@est.una.ac.cr";
-      init.defaultBranch = "main";
-      pull.rebase = false;
-    };
+  programs.git.settings.credential = {
+    helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+    credentialStore = "secretservice";
   };
-
-  programs.ssh = {
-    enable = true;
-    enableDefaultConfig = false;
-    settings."*" = {
-      AddKeysToAgent = "yes";
-    };
-    settings."github.com" = {
-      IdentityFile = "~/.ssh/id_ed25519";
-    };
-  };  
 
   #=============================================================================
   # USER PACKAGES
@@ -142,6 +114,7 @@ in
     pkgs.system-config-printer
     pkgs.dosbox
     pkgs.umu-launcher
+    pkgs.git-credential-manager
 
     #------------------
     # Apps

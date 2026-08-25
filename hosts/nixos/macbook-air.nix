@@ -26,7 +26,7 @@
   #================================
   # MACBOOK AIR WIFI CONFIG
   #================================
-   
+
   nixpkgs.config.allowUnfree = true;
   boot.initrd.kernelModules = [ "wl" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
@@ -110,7 +110,7 @@
   #=============================================================================
 
   # No GNOME keyring on Sway - use pass + simple keyring
-  services.gnome.gnome-keyring.enable = false;
+  services.gnome.gnome-keyring.enable = true;
   # dconf must stay enabled: HM's gtk module writes cursor/theme settings
   # through the dconf DBus service during activation
   programs.dconf.enable = true;
@@ -118,7 +118,7 @@
   services.power-profiles-daemon.enable = true;
 
   # Simple keyring alternative for passwords
-  security.pam.services.login.enableGnomeKeyring = false;
+  security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.greetd.enableGnomeKeyring = false;
   security.pam.services.sddm.enableGnomeKeyring = false;
 
@@ -238,18 +238,13 @@
     WLR_NO_HARDWARE_CURSORS = "1";
   };
 
-  #========================
-  # GIT
-  #========================
-  
-  programs.ssh.startAgent = true;
-
   #=============================================================================
   # SYSTEM PACKAGES
   #=============================================================================
 
   environment.systemPackages = with pkgs; [
     brave
+    git
     podman-compose
     kitty
     adwaita-icon-theme
@@ -312,6 +307,6 @@
   services.openssh = {
     enable = true;
   };
-  
+
   system.stateVersion = "26.05";
 }
