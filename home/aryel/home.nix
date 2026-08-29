@@ -47,11 +47,7 @@ in
     enableMcpIntegration = true;
     userSettings = {
       auto_save = "on_focus_change";
-      theme = {
-        mode = "system";
-        light = "Min Theme";
-        dark = "Min Theme";
-      };
+      theme = "One Dark";
     };
     extensions = [
       "github-copilot"
@@ -86,9 +82,77 @@ in
     components = [ "secrets" ];
   };
 
-  programs.git.settings.credential = {
-    helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
-    credentialStore = "secretservice";
+  programs.git = {
+    enable = true;
+    settings.credential = {
+      helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+      credentialStore = "secretservice";
+    };
+  };
+
+  #=============================================================================
+  # DISK MOUNTING — automount
+  #=============================================================================
+
+  # udiskie: monta automáticamente los discos que se conecten. Requiere
+  # services.udisks2.enable = true en el host (macbook-air).
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+    tray = "never";
+  };
+
+  #=============================================================================
+  # GVFS — trash y monitores de volumen (necesario para Nautilus)
+  #=============================================================================
+
+  # En Sway no hay gnome-session que arranque gvfs. Estas units de usuario
+  # inician gvfsd al abrir la sesión gráfica: sin gvfsd, Nautilus no soporta la
+  # papelera (trash://) ni detecta discos/MTP, y "Move to Trash" cae a borrado
+  # permanente previa confirmación.
+  systemd.user.services = {
+    gvfs-daemon = {
+      Unit = {
+        Description = "Virtual filesystem service";
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.gvfs}/libexec/gvfsd";
+        Type = "dbus";
+        BusName = "org.gtk.vfs.Daemon";
+        Slice = "session.slice";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
+    gvfs-udisks2-volume-monitor = {
+      Unit = {
+        Description = "Virtual filesystem service - disk device monitor";
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.gvfs}/libexec/gvfs-udisks2-volume-monitor";
+        Type = "dbus";
+        BusName = "org.gtk.vfs.UDisks2VolumeMonitor";
+        Slice = "session.slice";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
+    gvfs-mtp-volume-monitor = {
+      Unit = {
+        Description = "Virtual filesystem service - Media Transfer Protocol monitor";
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.gvfs}/libexec/gvfs-mtp-volume-monitor";
+        Type = "dbus";
+        BusName = "org.gtk.vfs.MTPVolumeMonitor";
+        Slice = "session.slice";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
   };
 
   #=============================================================================
@@ -140,6 +204,8 @@ in
     pkgs.polkit_gnome
     pkgs.gsettings-desktop-schemas
     pkgs.glib
+    pkgs.nautilus
+    pkgs.gvfs
   ];
 
   #=============================================================================
@@ -168,6 +234,20 @@ in
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+  };
+
+  # Nautilus como gestor de archivos por defecto
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = "org.gnome.Nautilus.desktop";
+    };
+  };
+
+  # Nautilus (libadwaita) en modo oscuro sin tocar el gtk.theme:
+  # color-scheme solo afecta a apps libadwaita/GTK4, no a tus temas GTK3.
+  dconf.settings = {
+    "org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
   #=============================================================================

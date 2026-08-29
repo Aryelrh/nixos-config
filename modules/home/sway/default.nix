@@ -118,8 +118,7 @@
 
       # Startup commands — lightweight only
       startup = [
-        { command = "swww-daemon"; }
-        { command = "swww img ~/.config/sway/wallpaper.jpg"; }
+        { command = "for i in $(seq 1 30); do [ -f ~/.config/sway/wallpaper.jpg ] && break; sleep 0.2; done; swaybg -i ~/.config/sway/wallpaper.jpg -m fill"; }
         { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"; }
         { command = "swayidle --timeout 600 'swaymsg \"output * dpms off\"' --refresh 5 'swaymsg \"output * dpms on\"' --wob before-sleep 'swaylock -f'"; }
         { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }

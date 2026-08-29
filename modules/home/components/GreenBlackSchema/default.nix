@@ -8,12 +8,16 @@
 # - Despliega waybar (config, estilo y scripts ejecutables), fuzzel y kitty
 #   usando los archivos de este directorio como fuente única.
 # - Arranca waybar junto con sway y aplica el wallpaper Blue.jpg de forma
-#   persistente (reintenta hasta que swww-daemon esté listo).
+#   persistente vía 'output bg' de sway (sway arranca swaybg automáticamente).
 # - Super+Espacio lanza fuzzel en vez de rofi.
 # - Acentos azules pastel oscuro (#89B4FA) en bordes enfocados de sway.
 #===============================================================================
 
 { pkgs, lib, ... }:
+
+let
+  wallpaper = ../wallpapers/Blue.jpg;
+in
 
 {
   #=============================================================================
@@ -23,10 +27,10 @@
   home.packages = with pkgs; [
     waybar
     fuzzel
-    awww          # wallpaper daemon (antes "swww": awww-daemon / awww img)
     playerctl     # módulo mpris de waybar
     bluetui       # on-click del módulo bluetooth
     nerd-fonts.jetbrains-mono
+    swaybg        # wallpaper setter for sway ('output bg' lo usa automáticamente)
   ];
 
   #=============================================================================
@@ -72,9 +76,9 @@
     "colors/colors.css".source = ./colors/colors.css;
 
     #------------------
-    # Wallpaper (persistente al iniciar sway)
+    # Wallpaper (lo aplica sway vía 'output bg' al iniciar)
     #------------------
-    "sway/wallpaper.jpg".source = ../wallpapers/Blue.jpg;
+    "sway/wallpaper.jpg".source = wallpaper;
 
     #------------------
     # Layout teclado es-mac a nivel usuario
@@ -95,14 +99,12 @@
         "Mod4+space" = lib.mkForce "exec fuzzel";
       };
 
-      # Startup completo para este host: wallpaper persistente + waybar
+      # Wallpaper persistente: 'output bg' hace que sway arranque swaybg
+      # automáticamente al iniciar (sin loops ni daemons extra).
+      output."eDP-1".bg = "${wallpaper} fill";
+
+      # Startup completo para este host: waybar + entorno
       startup = lib.mkForce [
-        { command = "awww-daemon"; }
-        {
-          command =
-            "for i in $(seq 1 50); do awww query >/dev/null 2>&1 && break; sleep 0.2; done; " +
-            "awww img ~/.config/sway/wallpaper.jpg";
-        }
         { command = "pkill -x waybar || true; exec waybar"; }
         { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"; }
         { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }

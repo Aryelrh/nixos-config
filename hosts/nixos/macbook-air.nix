@@ -109,7 +109,10 @@
   # KEYRING & SECRET SERVICE
   #=============================================================================
 
-  # No GNOME keyring on Sway - use pass + simple keyring
+  # GNOME keyring: provee el Secret Service (org.freedesktop.secrets) que usa
+  # git-credential-manager (GitHub). El keyring "login" se desbloquea en el
+  # login con la contraseña del usuario via PAM (pam_gnome_keyring), así Git
+  # no vuelve a pedir credenciales durante la sesión.
   services.gnome.gnome-keyring.enable = true;
   # dconf must stay enabled: HM's gtk module writes cursor/theme settings
   # through the dconf DBus service during activation
@@ -117,9 +120,10 @@
 
   services.power-profiles-daemon.enable = true;
 
-  # Simple keyring alternative for passwords
+  # Desbloqueo automático del keyring al iniciar sesión
   security.pam.services.login.enableGnomeKeyring = true;
-  security.pam.services.greetd.enableGnomeKeyring = false;
+  security.pam.services.greetd.enableGnomeKeyring = true;
+  security.pam.services.swaylock.enableGnomeKeyring = true;
   security.pam.services.sddm.enableGnomeKeyring = false;
 
   #=============================================================================
@@ -177,6 +181,25 @@
   hardware.bluetooth.enable = true;
 
   #=============================================================================
+  # DISK MOUNTING — udisks2 + polkit
+  #=============================================================================
+
+  # udisks2 expone los discos por D-Bus: Nautilus y udiskie los detectan y
+  # montan automáticamente al conectarlos (USB, discos duros externos, etc.).
+  services.udisks2.enable = true;
+
+  # Permitir al grupo "users" (aryel) montar/desmontar/desbloquear cualquier
+  # disco sin pedir contraseña al usar Nautilus o udiskie.
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id.startsWith("org.freedesktop.udisks2.") &&
+          subject.isInGroup("users")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+
+  #=============================================================================
   # MEMORY — Zram, Swap, OOM
   #=============================================================================
 
@@ -196,13 +219,28 @@
   };
 
   #=============================================================================
+  # UDEV — Nintendo Switch
+  #=============================================================================
+
+  services.udev.extraRules = ''
+    # RCM / APX (payload injection - hekate, TegraRcmGUI, etc.)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0955", ATTRS{idProduct}=="7321", MODE="0666", GROUP="plugdev"
+    # Nintendo Switch estándar (NXDT, GoldLeaf, etc.)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", MODE="0666", GROUP="plugdev"
+    # SysDVR (se presenta como dispositivo Android fastboot)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee0", MODE="0666", GROUP="plugdev"
+  '';
+
+  users.groups.plugdev = {};
+
+  #=============================================================================
   # USER
   #=============================================================================
 
   users.users.aryel = {
     isNormalUser = true;
     description = "aryel";
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "plugdev" ];
     packages = with pkgs; [];
   };
 
