@@ -1,0 +1,76 @@
+# Dunst — notificaciones al estilo waybar (esquema Green-Black)
+# =============================================================
+# Fondo oscuro #04080D (waybar usa alpha(@background,0.6)),
+# acento verde green2 (#6BA87F), radio de bordes 8px y la misma
+# tipografía JetBrainsMono Nerd Font. Timeout de 5s para que las
+# notificaciones desaparezcan rápidamente.
+
+[global]
+    monitor = 0
+    follow = none
+    width = 300
+    height = 0
+    origin = top-right
+    offset = 10x38
+    scale = 0
+    notification_limit = 6
+
+    progress_bar = true
+    progress_bar_height = 5
+    progress_bar_frame_width = 0
+    progress_bar_min_width = 100
+    progress_bar_max_width = 280
+
+    icon_theme = Papirus-Dark
+    icon_position = left
+    min_icon_size = 0
+    max_icon_size = 48
+
+    corner_radius = 8
+    padding = 10
+    horizontal_padding = 12
+    separator_height = 2
+    gap_size = 6
+
+    frame_width = 1
+    frame_color = #6BA87F
+
+    font = JetBrainsMono Nerd Font 12
+    markup = full
+    format = "%s\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = false
+    word_wrap = true
+    indicate_hidden = true
+    idle_threshold = 120
+
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = true
+
+    mouse_left_click = close_current
+    mouse_middle_click = close_all
+    mouse_right_click = close_all
+
+# Urgencias — mismas paletas que el tema
+
+[urgency_low]
+    timeout = 5
+    background = "#0B1018"
+    foreground = "#D9E8F5"
+    frame_color = "#313244"
+
+[urgency_normal]
+    timeout = 5
+    background = "#0B1018"
+    foreground = "#D9E8F5"
+    frame_color = "#6BA87F"
+
+[urgency_critical]
+    timeout = 8
+    background = "#2A1217"
+    foreground = "#FFFFFF"
+    frame_color = "#FF6B6B"

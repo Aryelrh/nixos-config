@@ -115,6 +115,12 @@
           # Backlight
           "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
           "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+          # XF86 also para cubrir el modo "media" de las teclas Apple
+          "XF86KbdBrightnessDown" = "exec ~/.local/bin/sway-kbd-light down";
+          "XF86KbdBrightnessUp" = "exec ~/.local/bin/sway-kbd-light up";
+          # F5/F6 como teclas planas (según fnmode hid-apple) controlan backlight
+          "F5" = "exec ~/.local/bin/sway-kbd-light down";
+          "F6" = "exec ~/.local/bin/sway-kbd-light up";
         };
 
       # Startup commands — lightweight only
@@ -159,9 +165,18 @@
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ./config/swaylock.conf;
 
+  # Dunst — estilo waybar (Green-Black), timeout de 5s
+  home.file.".config/dunst/dunstrc".source = ./config/dunstrc;
+
   # Script de captura estilo GNOME (Super+Shift+S)
   home.file.".local/bin/sway-shot" = {
     source = ./scripts/screenshot.sh;
+    executable = true;
+  };
+
+  # Script de control del backlight del teclado (F5/F6)
+  home.file.".local/bin/sway-kbd-light" = {
+    source = ./scripts/kbd-backlight.sh;
     executable = true;
   };
 

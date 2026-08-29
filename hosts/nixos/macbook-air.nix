@@ -223,6 +223,11 @@
   #=============================================================================
 
   services.udev.extraRules = ''
+    # Keyboard backlight (MacBook Air) — escritura para el grupo "users"
+    # (sysfs sMC::kbd_backlight está controlado por el driver applesmc)
+    KERNEL=="smc::kbd_backlight", SUBSYSTEM=="leds", ACTION=="add|change", \
+      RUN+="${pkgs.coreutils}/bin/chgrp users /sys/class/leds/smc::kbd_backlight/brightness", \
+      RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/leds/smc::kbd_backlight/brightness"
     # RCM / APX (payload injection - hekate, TegraRcmGUI, etc.)
     SUBSYSTEM=="usb", ATTRS{idVendor}=="0955", ATTRS{idProduct}=="7321", MODE="0666", GROUP="plugdev"
     # Nintendo Switch estándar (NXDT, GoldLeaf, etc.)
