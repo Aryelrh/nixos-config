@@ -165,6 +165,10 @@ in
     #------------------
     pkgs.wlr-randr
     pkgs.dunst
+    pkgs.grim
+    pkgs.slurp
+    pkgs.wl-clipboard
+    pkgs.libnotify
 
     #------------------
     # Utilities
@@ -266,6 +270,9 @@ in
   #=============================================================================
 
   home.file.".config/nvim".source = nvimConfigPath;
+
+  # Directorio por defecto de capturas (grimblast copysave area)
+  home.file."Pictures/Screenshots/.keep".text = "";
 
   #=============================================================================
   # IMPORTS

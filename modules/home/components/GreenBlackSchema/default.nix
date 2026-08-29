@@ -105,6 +105,7 @@ in
 
       # Startup completo para este host: waybar + entorno
       startup = lib.mkForce [
+        { command = "pkill -x dunst || true; exec dunst"; }
         { command = "pkill -x waybar || true; exec waybar"; }
         { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"; }
         { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }

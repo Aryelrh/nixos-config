@@ -102,8 +102,9 @@
           "${modifier}+shift+8" = "move container to workspace 8; workspace 8";
           "${modifier}+shift+9" = "move container to workspace 9; workspace 9";
 
-          # Screenshot
-          "${modifier}+shift+s" = "exec grim -g \"$(slurp)\" - | wl-copy";
+          # Screenshot estilo GNOME: congela la pantalla durante la selección,
+          # copia la región al portapapeles y guarda en ~/Pictures/Screenshots
+          "${modifier}+shift+s" = "exec ~/.local/bin/sway-shot";
 
           # Audio
           "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -118,6 +119,7 @@
 
       # Startup commands — lightweight only
       startup = [
+        { command = "pkill -x dunst || true; exec dunst"; }
         { command = "for i in $(seq 1 30); do [ -f ~/.config/sway/wallpaper.jpg ] && break; sleep 0.2; done; swaybg -i ~/.config/sway/wallpaper.jpg -m fill"; }
         { command = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"; }
         { command = "swayidle --timeout 600 'swaymsg \"output * dpms off\"' --refresh 5 'swaymsg \"output * dpms on\"' --wob before-sleep 'swaylock -f'"; }
@@ -156,4 +158,13 @@
 
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ./config/swaylock.conf;
+
+  # Script de captura estilo GNOME (Super+Shift+S)
+  home.file.".local/bin/sway-shot" = {
+    source = ./scripts/screenshot.sh;
+    executable = true;
+  };
+
+  # jq: usado por sway-shot para parsear el árbol de ventanas de sway
+  home.packages = [ pkgs.jq ];
 }
