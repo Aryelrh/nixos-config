@@ -32,9 +32,9 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
   boot.blacklistedKernelModules = [ "b43" "ssb" "brcmfmac" "brcmsmac" "bcma" ];
   nixpkgs.config.permittedInsecurePackages = [
+    "broadcom-sta-6.30.223.271-63-7.2.6"
     "broadcom-sta-6.30.223.271-59-7.0.12"
   ];
-
   #=============================================================================
   # FIRMWARE
   #=============================================================================
@@ -260,8 +260,17 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
-    config.common.default = "sway";
+    wlr = {
+      enable = true;
+      settings = {
+        screencast = {
+          output_name = "eDP-1";
+          chooser_type = "none";
+        };
+      };
+    };
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    config.common.default = "*";
   };
 
   #=============================================================================
@@ -309,6 +318,7 @@
     # Lazyspotify replaced by podman-remote or direct spotify client
     # spotify kept as flatpak
     nodejs_22
+    bemenu
   ];
 
   #=============================================================================
